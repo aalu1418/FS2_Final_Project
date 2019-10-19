@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // Set the configuration for your app
-const firebaseConfig = {
+const config = {
   apiKey: "AIzaSyBs08Qeq09jMU25HueM31QuiT-ocA_cl3A",
   authDomain: "gb-fullstackii-project.firebaseapp.com",
   databaseURL: "https://gb-fullstackii-project.firebaseio.com",
@@ -35,7 +35,36 @@ const firebaseConfig = {
   messagingSenderId: "286346621575",
   appId: "1:286346621575:web:8944a1391192a377023e22"
 };
-firebase.initializeApp(config);
+
+//initialize if firebase app is not already intialized
+if (!firebase.apps.length) {
+  firebase.initializeApp(config);
+}
 
 // Get a reference to the database service
 var database = firebase.database();
+
+//write to database
+function create_user(userId, name, email, imageUrl) {
+  firebase
+    .database()
+    .ref("users/" + userId)
+    .set({
+      username: name,
+      email: email,
+      profile_picture: imageUrl
+    });
+}
+
+//get info from database
+function return_user(userId) {
+  return firebase
+    .database()
+    .ref("/users/" + userId)
+    .once("value")
+    .then(function(snapshot) {
+      var username = (snapshot.val() && snapshot.val().username) || "Anonymous";
+      console.log(snapshot.val());
+      // ...
+    });
+}

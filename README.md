@@ -36,13 +36,21 @@ Aaron Lu
 ### Task List
 #### Aaron
 - [ ] experiment with Firebase
+  - [x] write to database
+  - [x] read from database
+  - [ ] store image in bucket
+  - [ ] get image in bucket
+  - [ ] setup authentication
+  - [ ] secure database & retain functionality
+    - [ ] all authenticated users can pull everything from database
+    - [ ] authenticated user can see info about everyone, but only their sent messages
 
 #### Deepanshu
 - [ ] experiment with Bootstrap
 ---
 
 ### Tools List
-- [Bootstrap](https://getbootstrap.com/) for HTML/CSS/JS framework 
+- [Bootstrap](https://getbootstrap.com/) for HTML/CSS/JS framework
 - [Firebase](https://firebase.google.com/) for database & webhosting
 ---
 
