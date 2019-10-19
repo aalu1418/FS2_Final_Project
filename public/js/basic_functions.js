@@ -80,13 +80,14 @@ const write_image = (file_dat, image_name, location_ref) => {
   temp_ref.put(file_dat).then(snapshot => {
     snapshot.ref.getDownloadURL().then((downloadURL) => {
       console.log(downloadURL);
+      $("#avatar_img").attr("src", downloadURL);
     });
   });
 };
 
 //listener for file upload
 //https://stackoverflow.com/questions/46988902/how-to-upload-image-to-firebase-cloud-storage-from-input-field
-$("#avatar").change(obj => {
+$("#avatar_load").change(obj => {
   const file_dat = obj.target.files[0];
   write_image(file_dat, file_dat.name, images_ref);
 });
