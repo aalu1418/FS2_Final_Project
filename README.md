@@ -38,8 +38,8 @@ Aaron Lu
 - [ ] experiment with Firebase
   - [x] write to database
   - [x] read from database
-  - [ ] store image in bucket
-  - [ ] get image in bucket
+  - [x] store image in bucket
+  - [x] get image in bucket - can access URL, not sure if need to download from storage
   - [ ] setup authentication
   - [ ] secure database & retain functionality
     - [ ] all authenticated users can pull everything from database
@@ -52,7 +52,9 @@ Aaron Lu
 ### Tools List
 - [Bootstrap](https://getbootstrap.com/) for HTML/CSS/JS framework
 - [Firebase](https://firebase.google.com/) for database & webhosting
+- JQuery for DOM content
 ---
 
 ### Notes Section
 - [Aaron] Sample note
+- [Aaron] make sure to add error handling for .then functions
