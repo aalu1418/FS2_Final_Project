@@ -44,7 +44,9 @@ Must contain the following Server-side functionality:
   - [x] read from database
   - [x] store image in bucket
   - [x] get image in bucket - can access URL & display, not sure if need to download from storage
-  - [ ] setup authentication
+  - [x] setup authentication
+    - [x] create login system to generate user
+    - [x] access user data from a different page
   - [ ] secure database & retain functionality
     - [ ] all authenticated users can pull everything from database
     - [ ] all authenticated users can view everything from storage

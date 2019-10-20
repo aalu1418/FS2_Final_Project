@@ -18,6 +18,12 @@
     <!-- custom js scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script defer src="js/basic_functions.js"></script>
+    <script defer src="js/database.js"></script>
+    <script type="text/javascript">
+      window.addEventListener('load', function() {
+        initApp();
+      });
+    </script>
 
     <style media="screen">
       body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
@@ -45,5 +51,12 @@
 
     <input type="file" id="avatar_load" name="avatar" accept="image/png, image/jpeg">
     <img src="" id = "avatar_img">
+
+    <div class="">
+      <h1>Welcome to My Awesome App</h1>
+      <div id="sign-in-status"></div>
+      <div id="sign-in"></div>
+      <pre id="account-details"></pre>
+    </div>
   </body>
 </html>
