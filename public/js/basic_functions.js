@@ -86,3 +86,18 @@ initApp = function() {
     }
   );
 };
+
+//logout
+const logout = () => {
+  firebase
+    .auth()
+    .signOut()
+    .then(
+      () => {
+        console.log("[logout success]");
+      },
+      error => {
+        console.log("[logout error] " + error);
+      }
+    );
+};

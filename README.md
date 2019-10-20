@@ -47,6 +47,7 @@ Must contain the following Server-side functionality:
   - [x] setup authentication
     - [x] create login system to generate user
     - [x] access user data from a different page
+    - [x] logout functionality
   - [ ] secure database & retain functionality
     - [ ] all authenticated users can pull everything from database
     - [ ] all authenticated users can view everything from storage
