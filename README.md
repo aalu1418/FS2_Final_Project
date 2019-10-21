@@ -55,6 +55,11 @@ Must contain the following Server-side functionality:
     - [x] authenticated user can only see specific objects in storage
 - [x] determine data (storage & database) storage structure
   - store in "sessions" (identified by users)
+- [ ] integrate with existing framework
+  - [ ] login functionality
+  - [ ] new user functionality
+  - [ ] function for sending messages
+  - [ ] function for getting messages
 
 #### Deepanshu
 - [ ] experiment with Bootstrap
