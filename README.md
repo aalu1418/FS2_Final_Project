@@ -55,6 +55,7 @@ Must contain the following Server-side functionality:
     - [x] authenticated user can only see specific objects in storage
 - [x] determine data (storage & database) storage structure
   - store in "sessions" (identified by users)
+  - [x] create permissions in database for structure
 - [ ] integrate with existing framework
   - [ ] login functionality
   - [ ] new user functionality
