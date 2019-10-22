@@ -1,5 +1,5 @@
 //logging in
-const login = (email, password) => {
+var login = (email, password) => {
   firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
@@ -13,14 +13,20 @@ const login = (email, password) => {
 };
 
 //create user
-const new_user = (email, password, fullname) => {
+var new_user = (email, password) => {
   firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
     .catch(function(error) {
       // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
+      // var errorCode = error.code;
+      // var errorMessage = error.message;
+      print_error(error.message);
       // ...
     });
+};
+
+//error printing
+var print_error = message => {
+  document.getElementById("error-text").innerHTML = message;
 };

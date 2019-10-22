@@ -14,7 +14,7 @@ if (!firebase.apps.length) {
   firebase.initializeApp(config);
 }
 
-//get login information (globally availble)
+//get login information
 let user_info;
 firebase.auth().onAuthStateChanged(
   function(user) {
@@ -27,6 +27,22 @@ firebase.auth().onAuthStateChanged(
     console.log(error);
   }
 );
+
+const get_user = () => new Promise(async resolve => {
+  firebase.auth().onAuthStateChanged( user => {
+    resolve(user)
+  })
+})
+
+//redirect to chat page based if user is logged in or not
+var redirect = () => {
+  if (user_info) {
+    console.log("[login success]");
+    window.location.href = "./chat.html";
+  } else {
+    console.log("[login failed]");
+  }
+}
 
 //logout - included in basic to allow logout from any page
 const logout = () => {
