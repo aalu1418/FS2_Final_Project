@@ -1,6 +1,16 @@
 {
   "rules": {
-    ".read": true,
-    ".write": true
+    "users":{
+      "$uid": {
+        ".read": "auth.uid != null",
+        ".write": "$uid === auth.uid",
+      }
+    },
+    "conversations":{
+      "$convo_id":{
+        ".read": "root.child('conversations/'+$convo_id+'/messages/'+auth.uid).exists()",
+        ".write": "root.child('conversations/'+$convo_id+'/messages'+auth.uid).exists()",
+      }
+    }
   }
 }

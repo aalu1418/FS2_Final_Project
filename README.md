@@ -24,8 +24,7 @@ Must contain the following Server-side functionality:
 ##### Aaron Lu
 ---
 
-### Ideas List
-- Ether transfer via chat app
+### Ideas List: Ether transfer via chat app
 - [ ] Realtime database for storing messages & transactions
 - [ ] Authentication via Firebase using prebuilt UI
 - [ ] HTML Layout
@@ -35,11 +34,12 @@ Must contain the following Server-side functionality:
 - [ ] Chat Functionality
 - [ ] Ether transfer
 - [ ] Authentication via Firebase using custom UI
+- [ ] Transfer media functionality
 ---
 
 ### Task List
 #### Aaron
-- [ ] experiment with Firebase
+- [x] experiment with Firebase
   - [x] write to database
   - [x] read from database
   - [x] store image in bucket
@@ -48,12 +48,19 @@ Must contain the following Server-side functionality:
     - [x] create login system to generate user
     - [x] access user data from a different page
     - [x] logout functionality
-  - [ ] secure database & retain functionality
-    - [ ] all authenticated users can pull everything from database
-    - [ ] all authenticated users can view everything from storage
-    - [ ] authenticated user can see info about everyone, but only specific data
-    - [ ] authenticated user can only see specific objects in storage
-- [ ] determine data (storage & database) storage structure
+  - [x] secure database & retain functionality
+    - [x] all authenticated users can pull everything from database
+    - [x] all authenticated users can view everything from storage
+    - [x] authenticated user can see info about everyone, but only specific data
+    - [x] authenticated user can only see specific objects in storage
+- [x] determine data (storage & database) storage structure
+  - store in "sessions" (identified by users)
+  - [x] create permissions in database for structure
+- [ ] integrate with existing framework
+  - [ ] login functionality
+  - [ ] new user functionality
+  - [ ] function for sending messages
+  - [ ] function for getting messages
 
 #### Deepanshu
 - [ ] experiment with Bootstrap

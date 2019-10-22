@@ -1,10 +1,14 @@
-// Anyone can read or write to the bucket, even non-users of your app.
-// Because it is shared with Google App Engine, this will also make
-// files uploaded via GAE public.
+// Grants a user access to a node matching their user ID
 service firebase.storage {
   match /b/{bucket}/o {
-    match /{allPaths=**} {
-      allow read, write;
+    // Files look like: "user/<UID>/path/to/file.txt"
+    match /user/{userId}/{allPaths=**} {
+      allow read, write: if request.auth.uid == userId;
+    }
+
+    match /profile_images/{allPaths=**} {
+    	allow read: if request.auth.uid != null;
+      allow write: if resource.metadata.owner == request.auth.uid;
     }
   }
 }
