@@ -4,7 +4,7 @@
 	<title>Login V18</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
+<!--===============================================================================================-->
 	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
@@ -14,13 +14,13 @@
 	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-<!--===============================================================================================-->	
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-<!--===============================================================================================-->	
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css/util.css">
@@ -28,7 +28,7 @@
 <!--===============================================================================================-->
 </head>
 <body style="background-color: #666666;">
-	
+
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
@@ -36,32 +36,33 @@
 					<span class="login100-form-title p-b-43">
 						Register to continue
 					</span>
-                    
+
                     <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
                             <input class="input100" type="text" name="name" id="name">
                             <span class="focus-input100"></span>
                             <span class="label-input100">Full Name</span>
                     </div>
-					
+
 					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
 						<input class="input100" type="text" name="email" id="email">
 						<span class="focus-input100"></span>
 						<span class="label-input100">Email</span>
 					</div>
-					
-					
+
+
 					<div class="wrap-input100 validate-input" data-validate="Password is required">
 						<input class="input100" type="password" name="password" id="password">
 						<span class="focus-input100"></span>
 						<span class="label-input100">Password</span>
                     </div>
-                    
+
                     <div class="wrap-input100 validate-input" data-validate="Password is required">
                             <input class="input100" type="password" id="confirmPassword" onkeyup="passwordMatch()">
                             <span class="focus-input100"></span>
                             <span class="label-input100">Confirm Password</span>
                     </div>
-                    <span class="txt2" id='message'></span>
+                    <div class="txt2" id='message'></div>
+										<div class="txt2" id='error-text' style="color:red"></div>
 
 					<div class="flex-sb-m w-full p-t-3 p-b-32">
 						<!-- <div class="contact100-form-checkbox">
@@ -77,14 +78,14 @@
 							</a>
 						</div> -->
 					</div>
-			
+
 
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
+						<button type="button" class="login100-form-btn" id="submit" onclick="register()">
 							Sign Up
 						</button>
 					</div>
-					
+
 					<div class="text-center p-t-46 p-b-20">
 						<span class="txt2">
 							Already have an account? <a href="login.html" style="text-decoration: underline;"> Login here </a>
@@ -107,7 +108,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<script src="js/register.js"></script>
 
 <!--===============================================================================================-->
@@ -126,6 +127,23 @@
 	<script src="vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
+
+	<!-- firebase scripts -->
+	<!-- update the version number as needed -->
+	<script defer src="/__/firebase/7.2.1/firebase-app.js"></script>
+	<!-- include only the Firebase features as you need -->
+	<script defer src="/__/firebase/7.2.1/firebase-auth.js"></script>
+	<script defer src="/__/firebase/7.2.1/firebase-database.js"></script>
+	<!-- <script defer src="/__/firebase/7.2.1/firebase-messaging.js"></script> -->
+	<script defer src="/__/firebase/7.2.1/firebase-storage.js"></script>
+	<!-- initialize the SDK after all desired features are loaded -->
+	<script defer src="/__/firebase/init.js"></script>
+
+	<!-- custom js scripts -->
+	<script defer src="/js/firebase_basic.js"></script>
+	<script defer src = "/js/firebase_auth.js"></script>
+	<script defer src="/js/firebase_database.js"></script>
+	<script defer src="/js/register.js"></script>
 
 </body>
 </html>

@@ -57,8 +57,8 @@ Must contain the following Server-side functionality:
   - store in "sessions" (identified by users)
   - [x] create permissions in database for structure
 - [ ] integrate with existing framework
-  - [ ] login functionality
-  - [ ] new user functionality
+  - [x] login functionality
+  - [x] new user functionality
   - [ ] function for sending messages
   - [ ] function for getting messages
 
@@ -69,7 +69,7 @@ Must contain the following Server-side functionality:
 ### Tools List
 - [Bootstrap](https://getbootstrap.com/) for HTML/CSS/JS framework
 - [Firebase](https://firebase.google.com/) for database & webhosting
-- [JQuery](https://jquery.com/) for DOM content
+- [JQuery](https://jquery.com/) for DOM content (not really used yet)
 ---
 
 ### Notes Section

@@ -1,7 +1,10 @@
 //  document.getElementsByClassName("validate-form")[0]
-document.getElementById("loginForm").addEventListener('submit', function(event) {
-    event.preventDefault();
+document.getElementById("loginForm").addEventListener("submit", async event => {
+  event.preventDefault();
 
-    alert("Login successfull..!!");
-    window.location.href = "./chat.html";
-})
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  await login(email, password);
+  redirect();
+});

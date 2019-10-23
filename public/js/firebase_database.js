@@ -2,15 +2,11 @@
 var database = firebase.database();
 
 //write to database
-const create_user = (userId, name, email, imageUrl) => {
+const write_database = (location, payload) => {
   firebase
     .database()
-    .ref("users/" + userId)
-    .set({
-      username: name,
-      email: email,
-      profile_picture: imageUrl
-    });
+    .ref(location)
+    .set(payload);
 };
 
 //get info from database
@@ -35,7 +31,7 @@ var images_ref = storage_ref.child("profile_images");
 const write_image = (file_dat, image_name, location_ref) => {
   const temp_ref = location_ref.child(image_name); //create temporary reference using image name
   temp_ref.put(file_dat).then(snapshot => {
-    snapshot.ref.getDownloadURL().then((downloadURL) => {
+    snapshot.ref.getDownloadURL().then(downloadURL => {
       console.log(downloadURL);
       $("#avatar_img").attr("src", downloadURL);
     });
