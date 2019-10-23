@@ -58,7 +58,7 @@ Must contain the following Server-side functionality:
   - [x] create permissions in database for structure
 - [ ] integrate with existing framework
   - [x] login functionality
-  - [ ] new user functionality
+  - [x] new user functionality
   - [ ] function for sending messages
   - [ ] function for getting messages
 
