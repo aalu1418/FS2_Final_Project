@@ -14,9 +14,12 @@ var login = (email, password) => {
 
 //create user
 var new_user = (email, password) => {
+  logout() //returns error if a user is already logged in (preemptive logout) - might be removed in the future
   firebase
     .auth()
-    .createUserWithEmailAndPassword(email, password)
+    .createUserWithEmailAndPassword(email, password).then(() => {
+      console.log("[new user] successs");
+    })
     .catch(function(error) {
       // Handle Errors here.
       // var errorCode = error.code;

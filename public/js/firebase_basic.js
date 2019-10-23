@@ -28,12 +28,6 @@ firebase.auth().onAuthStateChanged(
   }
 );
 
-const get_user = () => new Promise(async resolve => {
-  firebase.auth().onAuthStateChanged( user => {
-    resolve(user)
-  })
-})
-
 //redirect to chat page based if user is logged in or not
 var redirect = () => {
   if (user_info) {
