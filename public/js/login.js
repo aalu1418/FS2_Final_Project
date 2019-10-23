@@ -5,6 +5,7 @@ document.getElementById("loginForm").addEventListener("submit", async event => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  await login(email, password);
+  login(email, password);
+  await check_user();
   redirect();
 });
