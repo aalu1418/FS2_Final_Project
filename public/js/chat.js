@@ -45,7 +45,7 @@ function newMessage() {
             if (message.includes(",")) {
                 ethersToSent = message.split(",")[0];
                 receiverAddress = message.split(',')[1];
-    
+
                 //  Message should contain Count of Ethers to be Send
                 if ($.trim(ethersToSent) == '') {
                     errorMessage = "Please enter Number of Ethers to be sent and message should be in comma separated format like \
@@ -55,7 +55,7 @@ function newMessage() {
                     $('.contact.active .preview').html('<span>You: </span>' + message);
                     $(".messages").animate({ scrollTop: $(document).height() }, "fast");
                 }
-    
+
                 //  Message should contain Receiver's Address
                 else if ($.trim(receiverAddress) == '') {
                     errorMessage = "Please enter Receiver's address where you want to send Ethers and message should be in comma separated format like \
@@ -64,7 +64,7 @@ function newMessage() {
                     $('.message-input input').val(null);
                     $('.contact.active .preview').html('<span>You: </span>' + message);
                     $(".messages").animate({ scrollTop: $(document).height() }, "fast");
-    
+
                     // If both the things are there, then message should be from Sent user side.
                 } else {
                     console.log("ethers to sent: " + $.trim(ethersToSent));
@@ -73,16 +73,16 @@ function newMessage() {
                     msgObj["ethersToSent"] = $.trim(ethersToSent);
                     msgObj["receiverAddress"] = $.trim(receiverAddress);
                     sendMsgsArr.push(msgObj);
-    
+
                     $('<li class="sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><p> Ethers to Sent: ' + ethersToSent + '</p><p> Receiver Address: ' + receiverAddress + '</p></li>').appendTo($('.messages ul'));
                     $('.message-input input').val(null);
                     $('.contact.active .preview').html('<span>You: </span>' + message);
                     $(".messages").animate({ scrollTop: $(document).height() }, "fast");
-    
+
                     userMsgsDict[currentChatUser] = sendMsgsArr;
                     console.log(userMsgsDict['Harvey Specter']);
                 }
-    
+
             }
             else {
                 errorMessage = "Please enter message in comma separated format like \
@@ -93,7 +93,7 @@ function newMessage() {
                     $(".messages").animate({ scrollTop: $(document).height() }, "fast");
             }
         }
-        
+
     }
     // userMsgsDict[currentChatUser] = sendMsgsArr;
     // console.log(userMsgsDict['Harvey Specter']);
@@ -123,3 +123,43 @@ $(window).on('keydown', function (e) {
         return false;
     }
 });
+
+
+
+check_user() //run command to get access to user_info
+
+//create new database objects for conversation
+const new_convo = (recipient_id) => {
+  let payload = {};
+
+  const chat_id = 0;
+
+  //append chat id to user's id
+  payload["/chat_ids/"+user_info.uid+"/"+chat_id] ={
+    [chat_id] : true,
+  };
+  payload["/chat_ids/"+recipient_id+"/"+chat_id] ={
+    [chat_id] : true,
+  };
+
+  update_database(payload); //need to update databse with chat id first to allow write for actual chat
+
+  //create proper conversation object
+  payload["/conversations/"+chat_id] = {
+    [user_info.uid] : true,
+    [recipient_id] : true,
+  }
+  update_database(payload);
+}
+
+//send message as a part of a new conversation
+const new_message = (text, chat_id) => {
+  let payload = {};
+  //new message with the timestamp as the message number
+  payload["/conversations/"+chat_id+"/messages/"+Date.now()] = {
+    sender: user_info.uid,
+    timestamp: Date.now(),
+    message: text,
+  }
+  update_database(payload);
+}

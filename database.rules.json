@@ -8,8 +8,14 @@
     },
     "conversations":{
       "$convo_id":{
-        ".read": "root.child('conversations/'+$convo_id+'/messages/'+auth.uid).exists()",
-        ".write": "root.child('conversations/'+$convo_id+'/messages'+auth.uid).exists()",
+        ".read": "root.child('chat_ids').child(auth.uid).child($convo_id).exists()",
+        ".write": "root.child('chat_ids').child(auth.uid).child($convo_id).exists()",
+      }
+    },
+    "chat_ids":{
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "auth.uid != null",
       }
     }
   }
