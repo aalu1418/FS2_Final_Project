@@ -9,6 +9,15 @@ const write_database = (location, payload) => {
     .set(payload);
 };
 
+//update database - https://firebase.google.com/docs/database/web/read-and-write
+// payload includes location in object format
+const update_database = (payload) => {
+  firebase
+    .database()
+    .ref()
+    .update(payload);
+};
+
 //get info from database
 const return_user = userId => {
   return firebase
