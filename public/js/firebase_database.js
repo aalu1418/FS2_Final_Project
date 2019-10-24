@@ -11,11 +11,12 @@ const write_database = (location, payload) => {
 
 //update database - https://firebase.google.com/docs/database/web/read-and-write
 // payload includes location in object format
-const update_database = (payload) => {
+const update_database = payload => {
   firebase
     .database()
     .ref()
-    .update(payload);
+    .update(payload)
+    .catch(error => console.log(error));
 };
 
 //get info from database
