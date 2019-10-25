@@ -13,7 +13,7 @@ function passwordMatch() {
   }
 }
 
-var register = () => {
+var register = async () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
   const name = document.getElementById("name").value;
@@ -23,6 +23,7 @@ var register = () => {
     document.getElementById("confirmPassword").value
   ) {
     new_user(email, password);
+    await check_user();
     write_user_to_db(user_info.uid, name, email, ""); //need await to wait for user_info promise to resolve
     redirect();
   }
