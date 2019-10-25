@@ -33,7 +33,7 @@ Must contain the following Server-side functionality:
   - [ ] About page
 - [ ] Chat Functionality
 - [ ] Ether transfer
-- [ ] Authentication via Firebase using custom UI
+- [x] Authentication via Firebase using custom UI
 - [ ] Transfer media functionality
 ---
 
@@ -60,7 +60,10 @@ Must contain the following Server-side functionality:
   - [x] login functionality
   - [x] new user functionality
   - [ ] function for sending messages
+    - [ ] unique chat identifier
   - [ ] function for getting messages
+  - [ ] get user list (people who you can send messages to, and get images)
+  - [ ] set user profile picture
 
 #### Deepanshu
 - [ ] experiment with Bootstrap
@@ -75,3 +78,4 @@ Must contain the following Server-side functionality:
 ### Notes Section
 - [Aaron] make sure to add error handling for .then functions
 - [Aaron] 404 handling?
+- [Aaron] setup validation in database?

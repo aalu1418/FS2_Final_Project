@@ -45,9 +45,8 @@
 </head>
 
 <body>
-	<!-- 
-
-A concept for a chat interface. 
+	<!--
+A concept for a chat interface.
 
 Try writing a new message! :)
 
@@ -57,7 +56,6 @@ Codepen: https://codepen.io/emilcarlsson/
 Website: http://emilcarlsson.se/
 
 -->
-
 	<div id="frame">
 
 		<div id="sidepanel">
@@ -492,6 +490,22 @@ Website: http://emilcarlsson.se/
 		// });
 //# sourceURL=pen.js
 	</script>
+
+<!-- firebase scripts -->
+	<!-- update the version number as needed -->
+	<script defer src="/__/firebase/7.2.1/firebase-app.js"></script>
+	<!-- include only the Firebase features as you need -->
+	<script defer src="/__/firebase/7.2.1/firebase-auth.js"></script>
+	<script defer src="/__/firebase/7.2.1/firebase-database.js"></script>
+	<!-- <script defer src="/__/firebase/7.2.1/firebase-messaging.js"></script> -->
+	<script defer src="/__/firebase/7.2.1/firebase-storage.js"></script>
+	<!-- initialize the SDK after all desired features are loaded -->
+	<script defer src="/__/firebase/init.js"></script>
+
+	<!-- custom js scripts -->
+	<script defer src="/js/firebase_basic.js"></script>
+	<script defer src = "/js/firebase_database.js"></script>
+	<script defer src="/js/chat.js"></script>
 </body>
 
 </html>

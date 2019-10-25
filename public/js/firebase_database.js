@@ -9,17 +9,34 @@ const write_database = (location, payload) => {
     .set(payload);
 };
 
-//get info from database
-const return_user = userId => {
+//update database - https://firebase.google.com/docs/database/web/read-and-write
+// payload includes location in object format
+const update_database = payload => {
+  firebase
+    .database()
+    .ref()
+    .update(payload)
+    .catch(error => console.log(error));
+};
+
+//get info from database (creates a listener)
+// https://firebase.google.com/docs/database/web/lists-of-data
+const get_database = (location, sort_param, type, callback) => {
   return firebase
     .database()
-    .ref("/users/" + userId)
+    .ref(location)
+    .orderByChild(sort_param)
+    .on(type, callback, error =>
+      console.log("[firebase get] " + error.message)
+    );
+};
+
+const get_snapshot = location => {
+  return firebase
+    .database()
+    .ref(location)
     .once("value")
-    .then(snapshot => {
-      var username = (snapshot.val() && snapshot.val().username) || "Anonymous";
-      console.log(snapshot.val());
-      // ...
-    });
+    .catch(error => console.log(error));
 };
 
 // Get a reference to the storage service
