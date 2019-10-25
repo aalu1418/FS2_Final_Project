@@ -66,7 +66,33 @@ Must contain the following Server-side functionality:
   - [ ] set user profile picture
 
 #### Deepanshu
-- [ ] experiment with Bootstrap
+- [x] experiment with Bootstrap
+  - [x] login page
+  - [x] Register page
+  - [x] Chat page layout
+  - [x] css styling files and images for all pages
+  - [x] profile picture and icons
+  - [x] Message send bar and button with an icon
+  - [x] Styling for Chatbox content
+- [x] Register page
+    [x] password and confirm password check
+    [x] already a user link and render to login page
+- [x] Login page
+  - [x] provided the link if user is new
+  - [x] forgot password option
+- [x] Get the message and create message object for corresponding user (Chat page)
+  - [x] Message to be entered as comma separated format (2 parameters: ethersToSent and receiver'saddress)
+  - [x] Validations if anyone of the parameter is not null
+  - [x] create msg objects
+  - [x] get username/userid
+  - [x] create msg objects array
+  - [x] link username/userid with an array of msg objects 
+  - [ ] Validation for if no/wrong msg is entered
+  - [ ] Dsiplay users on left sidepanel after getting the users list from db
+  - [ ] create navbar, if time persists
+  - [ ] On leftpanel, open chat for particular user on clicking particular user's conversation box
+  - [ ] function for getting chat users for current logged in user
+
 ---
 
 ### Tools List
@@ -78,4 +104,6 @@ Must contain the following Server-side functionality:
 ### Notes Section
 - [Aaron] make sure to add error handling for .then functions
 - [Aaron] 404 handling?
+- [Deepanshu] Make sure to arrange the chat page layout acc to browser screen.
+- [Deepanshu] Make sure to remove the uncommented which is kept, as of now, for reference.
 - [Aaron] setup validation in database?
