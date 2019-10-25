@@ -78,3 +78,4 @@ Must contain the following Server-side functionality:
 ### Notes Section
 - [Aaron] make sure to add error handling for .then functions
 - [Aaron] 404 handling?
+- [Aaron] setup validation in database?
