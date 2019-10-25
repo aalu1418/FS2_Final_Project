@@ -36,6 +36,7 @@
 	<link rel='stylesheet prefetch'
 		href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
 
+<<<<<<< HEAD
 	<link rel="stylesheet" href="css/leftsidepanel.css">
 	<link rel="stylesheet" href="css/rightsidepanel.css">
 	<link rel="stylesheet" href="css/content.css">
@@ -47,6 +48,11 @@
 <body>
 	<!--
 
+=======
+</style></head><body>
+<!--
+
+>>>>>>> 47719eb842e558c33ffa45c35d352f0763a48218
 A concept for a chat interface.
 
 Try writing a new message! :)
@@ -58,6 +64,7 @@ Website: http://emilcarlsson.se/
 
 -->
 
+<<<<<<< HEAD
 	<div id="frame">
 
 		<div id="sidepanel">
@@ -90,6 +97,31 @@ Website: http://emilcarlsson.se/
 						<label for="twitter"><i class="fa fa-instagram fa-fw" aria-hidden="true"></i></label>
 						<input name="twitter" type="text" value="mike.ross" />
 					</div>
+=======
+<div id="frame">
+
+	<div id="sidepanel">
+		<div id="profile">
+			<div class="wrap">
+				<img id="profile-img" src="http://emilcarlsson.se/assets/mikeross.png" class="online" alt="" />
+				<p>Mike Ross</p>
+				<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+				<div id="status-options">
+					<ul>
+						<li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
+						<li id="status-away"><span class="status-circle"></span> <p>Away</p></li>
+						<li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
+						<li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
+					</ul>
+				</div>
+				<div id="expanded">
+					<label for="twitter"><i class="fa fa-facebook fa-fw" aria-hidden="true"></i></label>
+					<input name="twitter" type="text" value="mikeross" />
+					<label for="twitter"><i class="fa fa-twitter fa-fw" aria-hidden="true"></i></label>
+					<input name="twitter" type="text" value="ross81" />
+					<label for="twitter"><i class="fa fa-instagram fa-fw" aria-hidden="true"></i></label>
+					<input name="twitter" type="text" value="mike.ross" />
+>>>>>>> 47719eb842e558c33ffa45c35d352f0763a48218
 				</div>
 			</div>
 			<div id="search">
@@ -465,8 +497,33 @@ Website: http://emilcarlsson.se/
 				$("#profile-img").removeClass();
 			};
 
+<<<<<<< HEAD
 			$("#status-options").removeClass("active");
 		});
+=======
+$("#status-options ul li").click(function() {
+	$("#profile-img").removeClass();
+	$("#status-online").removeClass("active");
+	$("#status-away").removeClass("active");
+	$("#status-busy").removeClass("active");
+	$("#status-offline").removeClass("active");
+	$(this).addClass("active");
+
+	if($("#status-online").hasClass("active")) {
+		$("#profile-img").addClass("online");
+	} else if ($("#status-away").hasClass("active")) {
+		$("#profile-img").addClass("away");
+	} else if ($("#status-busy").hasClass("active")) {
+		$("#profile-img").addClass("busy");
+	} else if ($("#status-offline").hasClass("active")) {
+		$("#profile-img").addClass("offline");
+	} else {
+		$("#profile-img").removeClass();
+	};
+
+	$("#status-options").removeClass("active");
+});
+>>>>>>> 47719eb842e558c33ffa45c35d352f0763a48218
 
 		// function newMessage() {
 		// 	message = $(".message-input input").val();
@@ -491,8 +548,12 @@ Website: http://emilcarlsson.se/
 		// 	}
 		// });
 //# sourceURL=pen.js
+<<<<<<< HEAD
 	</script>
 
+=======
+</script>
+>>>>>>> 47719eb842e558c33ffa45c35d352f0763a48218
 
 <!-- firebase scripts -->
 	<!-- update the version number as needed -->
