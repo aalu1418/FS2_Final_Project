@@ -13,10 +13,10 @@
 <html class=''>
 
 <head>
-	<script
-		src='//production-assets.codepen.io/assets/editor/live/console_runner-079c09a0e3b9ff743e39ee2d5637b9216b3545af0de366d4b9aad9dc87e26bfd.js'></script>
-	<script
-		src='//production-assets.codepen.io/assets/editor/live/events_runner-73716630c22bbc8cff4bd0f07b135f00a0bdc5d14629260c3ec49e5606f98fdd.js'></script>
+	<!-- <script
+		src='//production-assets.codepen.io/assets/editor/live/console_runner-079c09a0e3b9ff743e39ee2d5637b9216b3545af0de366d4b9aad9dc87e26bfd.js'></script> -->
+	<!-- <script
+		src='//production-assets.codepen.io/assets/editor/live/events_runner-73716630c22bbc8cff4bd0f07b135f00a0bdc5d14629260c3ec49e5606f98fdd.js'></script> -->
 	<script
 		src='//production-assets.codepen.io/assets/editor/live/css_live_reload_init-2c0dc5167d60a5af3ee189d570b1835129687ea2a61bee3513dee3a50c115a77.js'></script>
 	<meta charset='UTF-8'>
@@ -96,7 +96,7 @@ Website: http://emilcarlsson.se/
 			</div>
 			<div id="contacts">
 				<ul>
-					<li class="contact">
+					<li class="contact" onclick="function ed(){console.log('insider..!!'); $(this).addClass('active')}">
 						<div class="wrap">
 							<span class="contact-status online"></span>
 							<img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
@@ -117,7 +117,7 @@ Website: http://emilcarlsson.se/
 							</div>
 						</div>
 					</li>
-					<li class="contact">
+					<!-- <li class="contact">
 						<div class="wrap">
 							<span class="contact-status away"></span>
 							<img src="http://emilcarlsson.se/assets/rachelzane.png" alt="" />
@@ -196,13 +196,13 @@ Website: http://emilcarlsson.se/
 								<p class="preview"><span>You:</span> That's bullshit. This deal is solid.</p>
 							</div>
 						</div>
-					</li>
+					</li> -->
 				</ul>
 			</div>
 			<div id="bottom-bar">
 				<button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add
 						contact</span></button>
-				<button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
+				<button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Logout</span></button>
 			</div>
 		</div>
 
@@ -427,7 +427,7 @@ Website: http://emilcarlsson.se/
 		</div>
 	</div>
 
-	<script src="js/chat.js"></script>
+	<!-- <script src="js/chat.js"></script> -->
 	<script
 		src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
 	<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
