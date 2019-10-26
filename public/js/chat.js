@@ -34,94 +34,93 @@ console.log("current user: " + currentChatUser);
 userMsgsDict = {};      // Key: Current Chat user and Value: Sent Messages array to this current chat user
 sendMsgsArr = [];       // Message objects array
 function newMessage() {
-    message = $(".message-input input").val();
-    console.log("getting msg: " + message);
+  message = $(".message-input input").val();
+  console.log("getting msg: " + message);
 
-    //Message Collection and creating object:
-    ethersToSent = '';
-    receiverAddress = '';
-    if (message.trim != "") {
-        if (message.length > 0){
-            if (message.includes(",")) {
-                ethersToSent = message.split(",")[0];
-                receiverAddress = message.split(',')[1];
+  //Message Collection and creating object:
+  ethersToSent = '';
+  receiverAddress = '';
+  if ($.trim(message) != "") {
+      if (message.includes(",")) {
+        ethersToSent = message.split(",")[0];
+        receiverAddress = message.split(',')[1];
 
-                //  Message should contain Count of Ethers to be Send
-                if ($.trim(ethersToSent) == '') {
-                    errorMessage = "Please enter Number of Ethers to be sent and message should be in comma separated format like \
+        //  Message should contain Count of Ethers to be Send
+        if ($.trim(ethersToSent) == '') {
+          errorMessage = "Please enter Number of Ethers to be sent and message should be in comma separated format like \
                     'xxx ETH, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'";
-                    $('<li class="replies"><img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" /><p>' + errorMessage + '</p></li>').appendTo($('.messages ul'));
-                    $('.message-input input').val(null);
-                    $('.contact.active .preview').html('<span>You: </span>' + message);
-                    $(".messages").animate({ scrollTop: $(document).height() }, "fast");
-                }
-
-                //  Message should contain Receiver's Address
-                else if ($.trim(receiverAddress) == '') {
-                    errorMessage = "Please enter Receiver's address where you want to send Ethers and message should be in comma separated format like \
-                    'xxx ETH, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'";
-                    $('<li class="replies"><img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" /><p>' + errorMessage + '</p></li>').appendTo($('.messages ul'));
-                    $('.message-input input').val(null);
-                    $('.contact.active .preview').html('<span>You: </span>' + message);
-                    $(".messages").animate({ scrollTop: $(document).height() }, "fast");
-
-                    // If both the things are there, then message should be from Sent user side.
-                } else {
-                    console.log("ethers to sent: " + $.trim(ethersToSent));
-                    console.log("wallet address: " + $.trim(receiverAddress));
-                    msgObj = {};
-                    msgObj["ethersToSent"] = $.trim(ethersToSent);
-                    msgObj["receiverAddress"] = $.trim(receiverAddress);
-                    sendMsgsArr.push(msgObj);
-
-                    $('<li class="sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><p> Ethers to Sent: ' + ethersToSent + '</p><p> Receiver Address: ' + receiverAddress + '</p></li>').appendTo($('.messages ul'));
-                    $('.message-input input').val(null);
-                    $('.contact.active .preview').html('<span>You: </span>' + message);
-                    $(".messages").animate({ scrollTop: $(document).height() }, "fast");
-
-                    userMsgsDict[currentChatUser] = sendMsgsArr;
-                    console.log(userMsgsDict['Harvey Specter']);
-                }
-
-            }
-            else {
-                errorMessage = "Please enter message in comma separated format like \
-                'xxx ETH, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'";
-                    $('<li class="replies"><img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" /><p>' + errorMessage + '</p></li>').appendTo($('.messages ul'));
-                    $('.message-input input').val(null);
-                    $('.contact.active .preview').html('<span>You: </span>' + message);
-                    $(".messages").animate({ scrollTop: $(document).height() }, "fast");
-            }
+          $('<li class="replies"><img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" /><p>' + errorMessage + '</p></li>').appendTo($('.messages ul'));
+          $('.message-input input').val(null);
+          $('.contact.active .preview').html('<span>You: </span>' + message);
+          $(".messages").animate({ scrollTop: $(document).height() }, "fast");
         }
 
-    }
-    // userMsgsDict[currentChatUser] = sendMsgsArr;
-    // console.log(userMsgsDict['Harvey Specter']);
+        //  Message should contain Receiver's Address
+        else if ($.trim(receiverAddress) == '') {
+          errorMessage = "Please enter Receiver's address where you want to send Ethers and message should be in comma separated format like \
+                    'xxx ETH, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'";
+          $('<li class="replies"><img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" /><p>' + errorMessage + '</p></li>').appendTo($('.messages ul'));
+          $('.message-input input').val(null);
+          $('.contact.active .preview').html('<span>You: </span>' + message);
+          $(".messages").animate({ scrollTop: $(document).height() }, "fast");
 
-    Object.keys(userMsgsDict).forEach((key, index) => {
-        // console.log("dict msg: " + userMsgsDict[key]);
-    })
+          // If both the things are there, then message should be from Sent user side.
+        } else {
+          console.log("ethers to sent: " + $.trim(ethersToSent));
+          console.log("wallet address: " + $.trim(receiverAddress));
+          msgObj = {};
+          msgObj["ethersToSent"] = $.trim(ethersToSent);
+          msgObj["receiverAddress"] = $.trim(receiverAddress);
+          sendMsgsArr.push(msgObj);
 
-    if ($.trim(message) == '') {
-        return false;
-    }
-    // $('<li class="sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><p>' + message + '</p></li>').appendTo($('.messages ul'));
-    // $('<li class="sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><p> Ethers to Sent: ' + ethersToSent + '</p><p> Receiver Address: ' + receiverAddress + '</p></li>').appendTo($('.messages ul'));
-    // $('.message-input input').val(null);
-    // $('.contact.active .preview').html('<span>You: </span>' + message);
-    // $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+          $('<li class="sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><p> Ethers to Sent: ' + ethersToSent + '</p><p> Receiver Address: ' + receiverAddress + '</p></li>').appendTo($('.messages ul'));
+          $('.message-input input').val(null);
+          $('.contact.active .preview').html('<span>You: </span>' + message);
+          $(".messages").animate({ scrollTop: $(document).height() }, "fast");
 
+          userMsgsDict[currentChatUser] = sendMsgsArr;
+          console.log(userMsgsDict['Harvey Specter']);
+        }
+      }
+      else {
+        errorMessage = "Please enter message in comma separated format like \
+                'xxx ETH, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'";
+        $('<li class="replies"><img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" /><p>' + errorMessage + '</p></li>').appendTo($('.messages ul'));
+        $('.message-input input').val(null);
+        $('.contact.active .preview').html('<span>You: </span>' + message);
+        $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+      }
+  }
+  else {
+    errorMessage = "Please enter message in comma separated format like \
+            'xxx ETH, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'";
+    $('<li class="replies"><img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" /><p>' + errorMessage + '</p></li>').appendTo($('.messages ul'));
+    $('.message-input input').val(null);
+    $('.contact.active .preview').html('<span>You: </span>' + message);
+    $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+  }
+  // userMsgsDict[currentChatUser] = sendMsgsArr;
+  // console.log(userMsgsDict['Harvey Specter']);
+
+  Object.keys(userMsgsDict).forEach((key, index) => {
+    // console.log("dict msg: " + userMsgsDict[key]);
+  })
+
+  if ($.trim(message) == '') {
+    return false;
+  }
 };
 
 $('.submit').click(function () {
-    newMessage();
+  event.preventDefault();
+  newMessage();
 });
 
 $(window).on('keydown', function (e) {
-    if (e.which == 13) {
-        newMessage();
-        return false;
-    }
+  if (e.which == 13) {
+    newMessage();
+    return false;
+  }
 });
 
 
@@ -169,10 +168,10 @@ const new_message = (text, chat_id) => {
   payload[
     "/conversations/" + chat_id.toString() + "/messages/" + Date.now()
   ] = {
-    sender: user_info.uid,
-    message: text,
-    timestamp: current_timestamp
-  };
+      sender: user_info.uid,
+      message: text,
+      timestamp: current_timestamp
+    };
 
   //update timestamps on chats for each user
   get_snapshot("/conversations/" + chat_id).then(snapshot => {
@@ -258,3 +257,48 @@ const user_profiles = () => {
     }
   });
 };
+
+//  complete this by getting the users from the db (if any) and display the users on the front end..
+window.onload = function () {
+  // console.log("..[user profiles].. " + data.key + " " + JSON.stringify(data));
+  // user_info.profiles[data.key] = data.val();
+
+  console.log("on load..");
+  // console.log(user_info);
+  user_profiles.get_database;
+
+  $('<li class="contact"><div class="wrap"><span class="contact-status online"></span><img src="http://emilcarlsson.se/assets/louislitt.png" \
+  alt="" /><div class="meta"><p class="name">' + currentChatUser + '</p><p class="preview">' + "message" + '</p></div></div>\
+  </li>').appendTo($('#contacts ul'));
+
+}
+
+document.getElementById('addcontact').addEventListener('click', function () {
+  event.preventDefault();
+  console.log("coming over here..!!");
+
+  var txt;
+  var person = prompt("Please enter User's email you want to chat with: ");
+  if (person == null || person == "") {
+    txt = "You have not entered any email to chat with.";
+  } else {
+    console.log("Hello " + person + "! How are you today?");
+
+    // check_user(person);
+    // get_database('/users', 'email', 'child_changed');
+
+    // apply validation for person entering..
+    // check in db whether that person exits or not..
+
+    $('<li class="contact"><div class="wrap"><span class="contact-status online"></span><img src="http://emilcarlsson.se/assets/louislitt.png" \
+  alt="" /><div class="meta"><p class="name">' + person + '</p><p class="preview">' + "message" + '</p></div></div>\
+  </li>').appendTo($('#contacts ul'));
+  }
+
+})
+
+document.getElementById('settings').addEventListener('click', function() {
+  event.preventDefault();
+  localStorage.clear();
+  window.location.href = "./login.html";
+})
