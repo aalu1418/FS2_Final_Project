@@ -124,9 +124,6 @@ $(window).on('keydown', function (e) {
 });
 
 
-
-check_user(); //run command to get access to user_info
-
 //create new database objects for conversation
 const new_convo = recipient_id => {
   let payload = {};
@@ -276,8 +273,9 @@ window.onload = function () {
 
   console.log("on load..");
   // console.log(user_info);
+  await check_user(); //run command to get access to user_info
   user_profiles();
-  setTimeout(start_messages(), 1000);
+  start_messages();
 }
 
 document.getElementById('addcontact').addEventListener('click', function () {
