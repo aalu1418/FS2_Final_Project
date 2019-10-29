@@ -246,9 +246,9 @@ const user_chats = () => {
       const recipient_id = data.val().recipient;
       const recipient_username = user_info.profiles[recipient_id].username;
 
-      $('<li class="contact"><div class="wrap"><span class="contact-status online"></span><img src="http://emilcarlsson.se/assets/louislitt.png" \
+      $('#contacts ul').prepend('<li class="contact"><div class="wrap"><span class="contact-status online"></span><img src="http://emilcarlsson.se/assets/louislitt.png" \
       alt="" /><div class="meta"><p class="name">' + recipient_username + '</p><p class="preview">' + "message" + '</p></div></div>\
-      </li>').appendTo($('#contacts ul'));
+      </li>');
     }
   );
 };
@@ -267,15 +267,25 @@ const user_profiles = () => {
 };
 
 //  complete this by getting the users from the db (if any) and display the users on the front end..
-window.onload = function () {
+window.onload = async function () {
   // console.log("..[user profiles].. " + data.key + " " + JSON.stringify(data));
   // user_info.profiles[data.key] = data.val();
 
   console.log("on load..");
   // console.log(user_info);
   await check_user(); //run command to get access to user_info
-  user_profiles();
-  start_messages();
+  user_profiles(); //get all user profiles
+  new_user();//something to check new user & create the corresponding conversations
+  start_messages(); //get messages & chats
+}
+
+const new_user = () => {
+  get_snapshot("/chat_ids/"+user_info.uid).then(snapshot => {
+    // console.log(snapshot.val());
+    if (!snapshot.val()){
+      Object.keys(user_info.profiles).filter(item => item != user_info.uid).forEach(id => new_convo(id))
+    }
+  })
 }
 
 document.getElementById('addcontact').addEventListener('click', function () {

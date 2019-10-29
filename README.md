@@ -59,11 +59,11 @@ Must contain the following Server-side functionality:
 - [ ] integrate with existing framework
   - [x] login functionality
   - [x] new user functionality
-  - [ ] function for sending messages
-    - [ ] unique chat identifier
+  - [x] function for sending messages
+    - [x] unique chat identifier
   - [ ] function for getting messages
   - [ ] get user list (people who you can send messages to, and get images)
-  - [ ] set user profile picture
+  - [ ] set user profile picture & profile page
 
 #### Deepanshu
 - [x] experiment with Bootstrap
