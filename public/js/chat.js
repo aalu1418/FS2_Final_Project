@@ -124,9 +124,6 @@ $(window).on('keydown', function (e) {
 });
 
 
-
-check_user(); //run command to get access to user_info
-
 //create new database objects for conversation
 const new_convo = recipient_id => {
   let payload = {};
@@ -135,10 +132,12 @@ const new_convo = recipient_id => {
 
   //append user_id to chat_ids - timestamp used to organize order of chats
   payload["/chat_ids/" + user_info.uid + "/" + chat_id] = {
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    recipient: recipient_id,
   };
   payload["/chat_ids/" + recipient_id + "/" + chat_id] = {
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    recipient: user_info.uid,
   };
 
   update_database(payload); //need to update databse with chat id first to allow write for actual chat
@@ -197,6 +196,7 @@ const new_message = (text, chat_id) => {
 //start the chats & messages
 const start_messages = () => {
   let timeout;
+  // debugger;
   if (!user_info.chats) {
     user_chats(); //call user_chats to create user_info.chats if necessary
     timeout = 1000; //need a delay before next function because user_chats does not return a promise
@@ -211,14 +211,15 @@ const start_messages = () => {
 const user_messages = () => {
   Object.keys(user_info.chats).forEach(key => {
     get_database(
-      "/conversations/" + key.toString() + "/messages",
+      "/conversations/" + key.toString(),
       "timestamp",
       "child_added",
       data => {
-        console.log(key + " " + JSON.stringify(data));
+        // console.log(key + " " + JSON.stringify(data));
         user_info.chats[key][data.key] = data.val();
 
         //insert function to generate UI
+
       }
     );
   });
@@ -231,7 +232,7 @@ const user_chats = () => {
     "timestamp",
     "child_added",
     data => {
-      console.log("[user chats] " + data.key);
+      // console.log("[user chats] " + data.key);
 
       try {
         user_info.chats[data.key] = {}; //will push to obejct if it already exists
@@ -241,14 +242,21 @@ const user_chats = () => {
       }
 
       //insert function to generate UI
+      // console.log(data.val().recipient);
+      const recipient_id = data.val().recipient;
+      const recipient_username = user_info.profiles[recipient_id].username;
+
+      $('#contacts ul').prepend('<li class="contact"><div class="wrap"><span class="contact-status online"></span><img src="http://emilcarlsson.se/assets/louislitt.png" \
+      alt="" /><div class="meta"><p class="name">' + recipient_username + '</p><p class="preview">' + "message" + '</p></div></div>\
+      </li>');
     }
   );
 };
 
 //get all user profiles
 const user_profiles = () => {
-  get_database("/users", "child_added", data => {
-    console.log("[user profiles] " + data.key + " " + JSON.stringify(data));
+  get_database("/users", "username", "child_added", data => {
+    // console.log("[user profiles] " + data.key + " " + JSON.stringify(data));
     try {
       user_info.profiles[data.key] = data.val(); //will make a key/value pair if object exists
     } catch (e) {
@@ -259,18 +267,25 @@ const user_profiles = () => {
 };
 
 //  complete this by getting the users from the db (if any) and display the users on the front end..
-window.onload = function () {
+window.onload = async function () {
   // console.log("..[user profiles].. " + data.key + " " + JSON.stringify(data));
   // user_info.profiles[data.key] = data.val();
 
   console.log("on load..");
   // console.log(user_info);
-  user_profiles.get_database;
+  await check_user(); //run command to get access to user_info
+  user_profiles(); //get all user profiles
+  new_user();//something to check new user & create the corresponding conversations
+  start_messages(); //get messages & chats
+}
 
-  $('<li class="contact"><div class="wrap"><span class="contact-status online"></span><img src="http://emilcarlsson.se/assets/louislitt.png" \
-  alt="" /><div class="meta"><p class="name">' + currentChatUser + '</p><p class="preview">' + "message" + '</p></div></div>\
-  </li>').appendTo($('#contacts ul'));
-
+const new_user = () => {
+  get_snapshot("/chat_ids/"+user_info.uid).then(snapshot => {
+    // console.log(snapshot.val());
+    if (!snapshot.val()){
+      Object.keys(user_info.profiles).filter(item => item != user_info.uid).forEach(id => new_convo(id))
+    }
+  })
 }
 
 document.getElementById('addcontact').addEventListener('click', function () {
@@ -290,15 +305,16 @@ document.getElementById('addcontact').addEventListener('click', function () {
     // apply validation for person entering..
     // check in db whether that person exits or not..
 
-    $('<li class="contact"><div class="wrap"><span class="contact-status online"></span><img src="http://emilcarlsson.se/assets/louislitt.png" \
-  alt="" /><div class="meta"><p class="name">' + person + '</p><p class="preview">' + "message" + '</p></div></div>\
-  </li>').appendTo($('#contacts ul'));
+  //   $('<li class="contact"><div class="wrap"><span class="contact-status online"></span><img src="http://emilcarlsson.se/assets/louislitt.png" \
+  // alt="" /><div class="meta"><p class="name">' + person + '</p><p class="preview">' + "message" + '</p></div></div>\
+  // </li>').appendTo($('#contacts ul'));
   }
 
 })
 
-document.getElementById('settings').addEventListener('click', function() {
+document.getElementById('logout').addEventListener('click', function() {
   event.preventDefault();
   localStorage.clear();
+  logout();
   window.location.href = "./login.html";
 })

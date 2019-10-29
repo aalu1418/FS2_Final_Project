@@ -28,7 +28,7 @@ Must contain the following Server-side functionality:
 - [ ] Realtime database for storing messages & transactions
 - [ ] Authentication via Firebase using prebuilt UI
 - [ ] HTML Layout
-  - [ ] Chat page (includes list of all chats, current conversation, conversation profile)
+  - [ ] Chat page (includes list of all chats, all possible conversations, conversation profile)
   - [ ] Personal profile page
   - [ ] About page
 - [ ] Chat Functionality
@@ -59,11 +59,11 @@ Must contain the following Server-side functionality:
 - [ ] integrate with existing framework
   - [x] login functionality
   - [x] new user functionality
-  - [ ] function for sending messages
-    - [ ] unique chat identifier
+  - [x] function for sending messages
+    - [x] unique chat identifier
   - [ ] function for getting messages
   - [ ] get user list (people who you can send messages to, and get images)
-  - [ ] set user profile picture
+  - [ ] set user profile picture & profile page
 
 #### Deepanshu
 - [x] experiment with Bootstrap
@@ -86,7 +86,7 @@ Must contain the following Server-side functionality:
   - [x] create msg objects
   - [x] get username/userid
   - [x] create msg objects array
-  - [x] link username/userid with an array of msg objects 
+  - [x] link username/userid with an array of msg objects
   - [ ] Validation for if no/wrong msg is entered
   - [ ] Dsiplay users on left sidepanel after getting the users list from db
   - [ ] create navbar, if time persists
