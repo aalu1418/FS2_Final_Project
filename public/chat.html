@@ -39,9 +39,8 @@
 	<link rel="stylesheet" href="css/leftsidepanel.css">
 	<link rel="stylesheet" href="css/rightsidepanel.css">
 	<link rel="stylesheet" href="css/content.css">
-	<style class="cp-pen-styles">
-
-	</style>
+	<style class="cp-pen-styles"></style>
+	<link rel="stylesheet" href="css/custom.css">
 </head>
 
 <body>
@@ -56,15 +55,75 @@ Codepen: https://codepen.io/emilcarlsson/
 Website: http://emilcarlsson.se/
 
 -->
-	<div id="frame">
 
+	<div id="overlay">
+		<div class="row justify-content-end" id="close-overlay" onclick="close_overlay()" style="cursor: pointer">
+			<div class="col-1">
+				<img src="images/close-24px.svg" class = "w-100" style = "max-width: 50px">
+				<p style="text-align:center">ESC</p>
+			</div>
+		</div>
+		<div id="user-profile" class="row justify-content-center h-100" style="display:none">
+			<div class="col-8 align-self-center" style="max-width:700px">
+				<div class="row justify-content-center h-25 m-4">
+					<img id=profile-img src="/images/person-24px.svg" class = "h-100 rounded-circle bg-secondary" style="border: 5px solid white;">
+				</div>
+				<div class="row justify-content-center">
+					<div class="col align-self-center">
+						<p class="text-center">
+							<ul class = "list-group">
+								<li class = "list-group-item">
+									<div class="row justify-content-between mr-2 ml-2">
+										<p class="align-self-center">Username:</p>
+										<p id="profile-username" class="align-self-center"></p>
+									</div>
+								</li>
+								<li class = "list-group-item">
+									<div class="row justify-content-between mr-2 ml-2">
+										<p class="align-self-center">Email:</p>
+										<p id="profile-email" class="align-self-center"></p>
+									</div>
+								</li>
+								<li class = "list-group-item">
+									<div class="row justify-content-between mr-2 ml-2">
+										<p class="align-self-center">Profile Picture:</p>
+										<p id="profile-password" class="align-self-center">
+											<button type="button" class="btn btn-dark">Change Picture</button>
+										</p>
+									</div>
+								</li>
+								<li class = "list-group-item">
+									<div class="row justify-content-between mr-2 ml-2">
+										<p class="align-self-center">Password Reset:</p>
+										<p id="profile-password" class="align-self-center">
+											<button type="button" class="btn btn-dark">Reset Password</button>
+										</p>
+									</div>
+								</li>
+								<li class = "list-group-item">
+									<div class="row justify-content-between mr-2 ml-2">
+										<p class="align-self-center">Metamask Public Key:</p>
+										<p id="profile-metamask" class="align-self-center">
+											<button type="button" class="btn btn-dark">Connect to Metamask</button>
+										</p>
+									</div>
+								</li>
+							</ul>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="frame">
 		<div id="sidepanel">
 			<div id="profile">
 				<div class="wrap">
 					<img id="profile-img" src="http://emilcarlsson.se/assets/mikeross.png" class="online" alt="" />
 					<p>Mike Ross</p>
-					<!-- <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i> -->
-					<div id="status-options">
+					<i class="fa fa-chevron-down expand-button"></i>
+					<!-- <div id="status-options">
 						<ul>
 							<li id="status-online" class="active"><span class="status-circle"></span>
 								<p>Online</p>
@@ -79,7 +138,7 @@ Website: http://emilcarlsson.se/
 								<p>Offline</p>
 							</li>
 						</ul>
-					</div>
+					</div> -->
 					<!-- <div id="expanded">
 						<label for="twitter"><i class="fa fa-facebook fa-fw" aria-hidden="true"></i></label>
 						<input name="twitter" type="text" value="mikeross" />
@@ -90,10 +149,10 @@ Website: http://emilcarlsson.se/
 					</div> -->
 				</div>
 			</div>
-			<div id="search">
+			<!-- <div id="search">
 				<label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
 				<input type="text" placeholder="Search contacts..." />
-			</div>
+			</div> -->
 			<div id="contacts">
 				<ul>
 					<li class="contact" onclick="function(){console.log('insider..!!'); $(this).addClass('active')}">

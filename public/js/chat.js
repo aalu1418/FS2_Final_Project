@@ -318,3 +318,35 @@ document.getElementById('logout').addEventListener('click', function() {
   logout();
   window.location.href = "./login.html";
 })
+
+const open_overlay = (section) => {
+  $("#overlay").show();
+  $("#frame").addClass("blurred");
+  $(section).slideDown();
+}
+
+const close_overlay = () => {
+  $("#user-profile").slideUp();
+  $("#overlay").hide();
+  $("#frame").removeClass("blurred");
+}
+
+const get_profile_page = () => {
+  $("#profile-username").text(user_info.profiles[user_info.uid].username)
+  $("#profile-email").text(user_info.profiles[user_info.uid].email)
+
+  if (user_info.profiles[user_info.uid].profile_picture != "") {
+    $("#profile-picture").attr("src", user_info.profiles[user_info.uid].profile_picture)
+  }
+}
+
+$("#profile").click(() => {
+  get_profile_page();
+  open_overlay("#user-profile");
+})
+
+$(document).keyup(function(e) {
+     if (e.key === "Escape") { // escape key maps to keycode `27`
+        close_overlay();
+    }
+});
