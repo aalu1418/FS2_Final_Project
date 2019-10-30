@@ -66,7 +66,7 @@ Website: http://emilcarlsson.se/
 		<div id="user-profile" class="row justify-content-center h-100" style="display:none">
 			<div class="col-8 align-self-center" style="max-width:700px">
 				<div class="row justify-content-center h-25 m-4">
-					<img id=profile-img src="/images/person-24px.svg" class = "h-100 rounded-circle bg-secondary" style="border: 5px solid white;">
+					<img id=profile-img class = "h-100 rounded-circle bg-secondary" style="border: 5px solid white;">
 				</div>
 				<div class="row justify-content-center">
 					<div class="col align-self-center">
@@ -87,8 +87,8 @@ Website: http://emilcarlsson.se/
 								<li class = "list-group-item">
 									<div class="row justify-content-between mr-2 ml-2">
 										<p class="align-self-center">Profile Picture:</p>
-										<p id="profile-password" class="align-self-center">
-											<button type="button" class="btn btn-dark">Change Picture</button>
+										<p class="align-self-center">
+											<label type="button" class="btn btn-dark">Change Picture <input type="file" id="profile_pic_load" name="avatar" accept="image/png, image/jpeg" class="custom-file-input" hidden></label>
 										</p>
 									</div>
 								</li>
@@ -96,18 +96,18 @@ Website: http://emilcarlsson.se/
 									<div class="row justify-content-between mr-2 ml-2">
 										<p class="align-self-center">Password Reset:</p>
 										<p id="profile-password" class="align-self-center">
-											<button type="button" class="btn btn-dark">Reset Password</button>
+											<button type="button" class="btn btn-dark" onclick="profile_password_reset()">Reset Password</button>
 										</p>
 									</div>
 								</li>
-								<li class = "list-group-item">
+								<!-- <li class = "list-group-item">
 									<div class="row justify-content-between mr-2 ml-2">
 										<p class="align-self-center">Metamask Public Key:</p>
 										<p id="profile-metamask" class="align-self-center">
 											<button type="button" class="btn btn-dark">Connect to Metamask</button>
 										</p>
 									</div>
-								</li>
+								</li> -->
 							</ul>
 						</p>
 					</div>
@@ -564,6 +564,7 @@ Website: http://emilcarlsson.se/
 	<!-- custom js scripts -->
 	<script defer src="/js/firebase_basic.js"></script>
 	<script defer src = "/js/firebase_database.js"></script>
+	<script defer src="/js/firebase_auth.js"></script>
 	<script defer src="/js/chat.js"></script>
 </body>
 

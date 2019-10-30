@@ -6,9 +6,9 @@ service firebase.storage {
       allow read, write: if request.auth.uid == userId;
     }
 
-    match /profile_images/{allPaths=**} {
+    match /profile_images/{userId}/{allPaths=**} {
     	allow read: if request.auth.uid != null;
-      allow write: if resource.metadata.owner == request.auth.uid;
+      allow write: if request.auth.uid == userId;
     }
   }
 }

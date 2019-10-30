@@ -264,6 +264,9 @@ const user_profiles = () => {
       user_info.profiles[data.key] = data.val(); //make key/value pair after object is created
     }
   });
+  get_database("/users", "username", "child_changed", data => {
+    user_info.profiles[data.key] = data.val();
+  });//listener for any changes to user profiles
 };
 
 //  complete this by getting the users from the db (if any) and display the users on the front end..
@@ -279,7 +282,7 @@ window.onload = async function () {
   start_messages(); //get messages & chats
 }
 
-const new_user = () => {
+var new_user = () => {
   get_snapshot("/chat_ids/"+user_info.uid).then(snapshot => {
     // console.log(snapshot.val());
     if (!snapshot.val()){
@@ -332,16 +335,22 @@ const close_overlay = () => {
 }
 
 const get_profile_page = () => {
+  let profile_image;
+
   $("#profile-username").text(user_info.profiles[user_info.uid].username)
   $("#profile-email").text(user_info.profiles[user_info.uid].email)
 
   if (user_info.profiles[user_info.uid].profile_picture != "") {
-    $("#profile-picture").attr("src", user_info.profiles[user_info.uid].profile_picture)
+    profile_image = user_info.profiles[user_info.uid].profile_picture;
+  } else {
+    profile_image = "/images/person-24px.svg";
   }
+
+  $("#profile-img").attr("src", profile_image)
 }
 
 $("#profile").click(() => {
-  get_profile_page();
+  get_profile_page(); //get information for user profile page
   open_overlay("#user-profile");
 })
 
@@ -350,3 +359,28 @@ $(document).keyup(function(e) {
         close_overlay();
     }
 });
+
+//listener for file upload
+//https://stackoverflow.com/questions/46988902/how-to-upload-image-to-firebase-cloud-storage-from-input-field
+$("#profile_pic_load").change(obj => {
+  const file_dat = obj.target.files[0];
+
+  // Get a reference to the storage service
+  var storage = firebase.storage();
+  var storage_ref = storage.ref();
+  var images_ref = storage_ref.child("profile_images/"+user_info.uid);
+
+  write_image(file_dat, file_dat.name, images_ref).then(snapshot => {
+    snapshot.ref.getDownloadURL().then(downloadURL => {
+      write_database("/users/"+user_info.uid+"/profile_picture", downloadURL);
+      // user_info.profiles[user_info.uid].profile_piscture = downloadURL;
+      get_profile_page();
+    });
+  }).catch(error => console.log("[file upload error]: " + error));
+});
+
+const profile_password_reset = () => {
+  password_reset(user_info.profiles[user_info.uid].email)
+    .then(() => $("#profile-password").html("Reset Email Sent"))
+    .catch(error => $("#profile-password").html("Reset Email Failed to Send"));
+}
