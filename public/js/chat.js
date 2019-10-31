@@ -365,17 +365,24 @@ const close_overlay = () => {
 
 const get_profile_page = () => {
   let profile_image;
+  const user = user_info.profiles[user_info.uid];
 
-  $("#profile-username").text(user_info.profiles[user_info.uid].username)
-  $("#profile-email").text(user_info.profiles[user_info.uid].email)
+  //write usernamme and email
+  $("#profile-username").text(user.username)
+  $("#profile-email").text(user.email)
 
-  if (user_info.profiles[user_info.uid].profile_picture != "") {
-    profile_image = user_info.profiles[user_info.uid].profile_picture;
+  //get profile picture depending on stored value
+  if (user.profile_picture != "") {
+    profile_image = user.profile_picture;
   } else {
     profile_image = "/images/person-24px.svg";
   }
-
   $("#profile-img").attr("src", profile_image)
+
+  //write public key if it exists
+  if (!user.public_key) {
+    $("#profile-metamask").text(user.public_key)
+  }
 }
 
 $("#profile").click(() => {
