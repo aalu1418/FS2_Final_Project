@@ -388,7 +388,7 @@ document.getElementById('logout').addEventListener('click', function () {
   localStorage.clear();
   logout();
   window.location.href = "./login.html";
-}
+})
 
 $("#about").click(() => {
   open_overlay("#about-page");
