@@ -306,6 +306,7 @@ const open_overlay = (section) => {
 
 const close_overlay = () => {
   $("#user-profile").slideUp();
+  $("#about-page").slideUp();
   $("#overlay").hide();
   $("#frame").removeClass("blurred");
 }
@@ -333,6 +334,12 @@ $("#profile").click(() => {
 $("#about").click(() => {
   open_overlay("#about-page");
 })
+
+$("#overlay").click((event) => {
+  if (event.target.id === "about-page" || event.target.id === "user-profile") {
+    close_overlay();
+  }
+});
 
 $(document).keyup(function(e) {
      if (e.key === "Escape") { // escape key maps to keycode `27`
