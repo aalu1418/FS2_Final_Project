@@ -25,15 +25,14 @@ Must contain the following Server-side functionality:
 ---
 
 ### Ideas List: Ether transfer via chat app
-- [ ] Realtime database for storing messages & transactions
-- [ ] Authentication via Firebase using prebuilt UI
+- [x] Realtime database for storing messages & transactions
+- [x] Authentication via Firebase using custom UI
 - [ ] HTML Layout
   - [ ] Chat page (includes list of all chats, all possible conversations, conversation profile)
-  - [ ] Personal profile page
-  - [ ] About page
+  - [x] Personal profile page
+  - [x] About page
 - [ ] Chat Functionality
 - [ ] Ether transfer
-- [x] Authentication via Firebase using custom UI
 - [ ] Transfer media functionality
 ---
 
@@ -56,14 +55,17 @@ Must contain the following Server-side functionality:
 - [x] determine data (storage & database) storage structure
   - store in "sessions" (identified by users)
   - [x] create permissions in database for structure
-- [ ] integrate with existing framework
+- [x] integrate with existing framework
   - [x] login functionality
   - [x] new user functionality
   - [x] function for sending messages
     - [x] unique chat identifier
-  - [ ] function for getting messages
-  - [ ] get user list (people who you can send messages to, and get images)
-  - [ ] set user profile picture & profile page
+  - [x] function for getting messages
+  - [x] get user list (people who you can send messages to, and get images)
+  - [x] set user profile picture & profile page
+- [ ] metamask integration
+  - [ ] get and save users public key
+  - [ ] use metamask to send ether to a public address
 
 #### Deepanshu
 - [x] experiment with Bootstrap

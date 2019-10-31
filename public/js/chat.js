@@ -316,6 +316,9 @@ const user_profiles = () => {
       user_info.profiles[data.key] = data.val(); //make key/value pair after object is created
     }
   });
+  get_database("/users", "username", "child_changed", data => {
+    user_info.profiles[data.key] = data.val();
+  });//listener for any changes to user profiles
 };
 
 //  complete this by getting the users from the db (if any) and display the users on the front end..
@@ -331,8 +334,8 @@ window.onload = async function () {
   start_messages(); //get messages & chats
 }
 
-const new_user = () => {
-  get_snapshot("/chat_ids/" + user_info.uid).then(snapshot => {
+var new_user = () => {
+  get_snapshot("/chat_ids/"+user_info.uid).then(snapshot => {
     // console.log(snapshot.val());
     if (!snapshot.val()) {
       Object.keys(user_info.profiles).filter(item => item != user_info.uid).forEach(id => new_convo(id))
@@ -340,28 +343,44 @@ const new_user = () => {
   })
 }
 
-document.getElementById('addcontact').addEventListener('click', function () {
+document.getElementById('logout').addEventListener('click', function() {
   event.preventDefault();
-  console.log("coming over here..!!");
+  localStorage.clear();
+  logout();
+  window.location.href = "./login.html";
+})
 
-  var txt;
-  var person = prompt("Please enter User's email you want to chat with: ");
-  if (person == null || person == "") {
-    txt = "You have not entered any email to chat with.";
+const open_overlay = (section) => {
+  $("#overlay").show();
+  $("#frame").addClass("blurred");
+  $(section).slideDown();
+}
+
+const close_overlay = () => {
+  $("#user-profile").slideUp();
+  $("#about-page").slideUp();
+  $("#overlay").hide();
+  $("#frame").removeClass("blurred");
+}
+
+const get_profile_page = () => {
+  let profile_image;
+
+  $("#profile-username").text(user_info.profiles[user_info.uid].username)
+  $("#profile-email").text(user_info.profiles[user_info.uid].email)
+
+  if (user_info.profiles[user_info.uid].profile_picture != "") {
+    profile_image = user_info.profiles[user_info.uid].profile_picture;
   } else {
-    console.log("Hello " + person + "! How are you today?");
-
-    // check_user(person);
-    // get_database('/users', 'email', 'child_changed');
-
-    // apply validation for person entering..
-    // check in db whether that person exits or not..
-
-    //   $('<li class="contact"><div class="wrap"><span class="contact-status online"></span><img src="http://emilcarlsson.se/assets/louislitt.png" \
-    // alt="" /><div class="meta"><p class="name">' + person + '</p><p class="preview">' + "message" + '</p></div></div>\
-    // </li>').appendTo($('#contacts ul'));
+    profile_image = "/images/person-24px.svg";
   }
 
+  $("#profile-img").attr("src", profile_image)
+}
+
+$("#profile").click(() => {
+  get_profile_page(); //get information for user profile page
+  open_overlay("#user-profile");
 })
 
 document.getElementById('logout').addEventListener('click', function () {
@@ -369,4 +388,45 @@ document.getElementById('logout').addEventListener('click', function () {
   localStorage.clear();
   logout();
   window.location.href = "./login.html";
+}
+
+$("#about").click(() => {
+  open_overlay("#about-page");
 })
+
+$("#overlay").click((event) => {
+  if (event.target.id === "about-page" || event.target.id === "user-profile") {
+    close_overlay();
+  }
+});
+
+$(document).keyup(function(e) {
+     if (e.key === "Escape") { // escape key maps to keycode `27`
+        close_overlay();
+    }
+});
+
+//listener for file upload
+//https://stackoverflow.com/questions/46988902/how-to-upload-image-to-firebase-cloud-storage-from-input-field
+$("#profile_pic_load").change(obj => {
+  const file_dat = obj.target.files[0];
+
+  // Get a reference to the storage service
+  var storage = firebase.storage();
+  var storage_ref = storage.ref();
+  var images_ref = storage_ref.child("profile_images/"+user_info.uid);
+
+  write_image(file_dat, file_dat.name, images_ref).then(snapshot => {
+    snapshot.ref.getDownloadURL().then(downloadURL => {
+      write_database("/users/"+user_info.uid+"/profile_picture", downloadURL);
+      // user_info.profiles[user_info.uid].profile_piscture = downloadURL;
+      get_profile_page();
+    });
+  }).catch(error => console.log("[file upload error]: " + error));
+});
+
+const profile_password_reset = () => {
+  password_reset(user_info.profiles[user_info.uid].email)
+    .then(() => $("#profile-password").html("Reset Email Sent"))
+    .catch(error => $("#profile-password").html("Reset Email Failed to Send"));
+}

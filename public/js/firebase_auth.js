@@ -8,16 +8,17 @@ var login = (email, password) => {
       // var errorCode = error.code;
       // var errorMessage = error.message;
       // console.log(errorCode = ": " + errorMessage);
-      print_error(error.message)
+      print_error(error.message);
     });
 };
 
 //create user
 var new_user = (email, password) => {
-  logout() //returns error if a user is already logged in (preemptive logout) - might be removed in the future
+  logout(); //returns error if a user is already logged in (preemptive logout) - might be removed in the future
   firebase
     .auth()
-    .createUserWithEmailAndPassword(email, password).then(() => {
+    .createUserWithEmailAndPassword(email, password)
+    .then(() => {
       console.log("[new user] successs");
     })
     .catch(function(error) {
@@ -32,4 +33,10 @@ var new_user = (email, password) => {
 //error printing
 var print_error = message => {
   document.getElementById("error-text").innerHTML = message;
+};
+
+//password reset email
+const password_reset = email => {
+  var auth = firebase.auth();
+  return auth.sendPasswordResetEmail(email);
 };
