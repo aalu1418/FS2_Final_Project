@@ -60,20 +60,20 @@ body {
     }
   }
   #frame #sidepanel #profile.expanded .wrap {
-    height: 210px;
+    /* height: 210px; */
     line-height: initial;
   }
   #frame #sidepanel #profile.expanded .wrap p {
     margin-top: 20px;
   }
-  #frame #sidepanel #profile.expanded .wrap i.expand-button {
+  /* #frame #sidepanel #profile.expanded .wrap i.expand-button {
     -moz-transform: scaleY(-1);
     -o-transform: scaleY(-1);
     -webkit-transform: scaleY(-1);
     transform: scaleY(-1);
     filter: FlipH;
     -ms-filter: "FlipH";
-  }
+  } */
   #frame #sidepanel #profile .wrap {
     height: 60px;
     line-height: 60px;
