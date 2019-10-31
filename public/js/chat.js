@@ -259,22 +259,6 @@ const user_chats = () => {
         + recipient_id + '\"><div class="wrap"><span class="contact-status online"></span><img src=\"'
         + profile_image + '\" alt="" /><div class="meta"><p class="name">'
         + recipient_username + '</p><p class="preview">' + "message" + '</p></div></div></li>');
-
-    //   //  Display by default the latest chat user with which the logged user has chat last
-    //   $('.content').prepend('<div class="contact-profile"><img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />\
-    //   <p id="currentChatUser">' + recipient_username + '</p><div class="social-media">\
-    //   <i class="fa fa-facebook" aria-hidden="true"></i><i class="fa fa-twitter" aria-hidden="true"></i>\
-    //   <i class="fa fa-instagram" aria-hidden="true"></i></div></div>\
-    //   <div class="messages"><ul></ul></div>\
-    //   <div class="message-input">\
-    //       <div class="wrap">\
-    //           <form>\
-    //             <input type="text" id="sentMsgContent" placeholder="Enter No. of Ethers, Receiver address (Comma separated values)" />\
-    //             <button class="submit" type="submit"><i class="fa fa-paper-plane"></i></button>\
-    //           </form>\
-    //       </div>\
-    //   </div>\
-    // ')
     }
   );
 };
@@ -290,30 +274,6 @@ $("#contacts ul").click(
     console.log(recipient_Uid);
     recipient_username = user_info.profiles[recipient_Uid].username;
     console.log(recipient_username);
-
-    // //  Validation for any existing chat user instance on click of chat
-    // // user and removing the previous instance.
-    // var contentDiv = document.querySelector(".content");
-    // while (contentDiv.firstChild) {
-    //   console.log("child loop..!!");
-    //   contentDiv.removeChild(contentDiv.firstChild);
-    // }
-
-    // Display the corresponding chat section on click of selected chat user.
-//     $('.content').prepend('<div class="contact-profile"><img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />\
-//   <p id="currentChatUser">' + recipient_username + '</p><div class="social-media">\
-//   <i class="fa fa-facebook" aria-hidden="true"></i><i class="fa fa-twitter" aria-hidden="true"></i>\
-//   <i class="fa fa-instagram" aria-hidden="true"></i></div></div>\
-//   <div class="messages"><ul></ul></div>\
-//   <div class="message-input">\
-// 			<div class="wrap">\
-// 					<form>\
-//             <input type="text" id="sentMsgContent" placeholder="Enter No. of Ethers, Receiver address (Comma separated values)" />\
-// 						<button class="submit" type="submit"><i class="fa fa-paper-plane"></i></button>\
-// 					</form>\
-// 			</div>\
-// 	</div>\
-// ')
 
     //Display corresponding username & picture
     //get profile picture depending on stored value
