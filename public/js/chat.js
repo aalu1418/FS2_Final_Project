@@ -209,11 +209,7 @@ const start_messages = () => {
 
     const user = user_info.profiles[user_info.uid];
     //get profile picture depending on stored value
-    if (user.profile_picture != "") {
-      profile_image = user.profile_picture;
-    } else {
-      profile_image = "/images/person-24px.svg";
-    }
+    const profile_image = image_check(user);
     $("#profile div img").attr("src", profile_image)
     $("#profile div p").text(user.username)
     $("#contacts ul").children().first("li").trigger("click"); //selects the first chat as the chat that opens on open
@@ -257,13 +253,12 @@ const user_chats = () => {
       // console.log(data.val().recipient);
       const recipient_id = data.val().recipient;
       const recipient_username = user_info.profiles[recipient_id].username;
-      if (user_info.profiles[recipient_id].profile_picture != "") {
-        profile_image = user_info.profiles[recipient_id].profile_picture;
-      } else {
-        profile_image = "/images/person-24px.svg";
-      }
+      const profile_image = image_check(user_info.profiles[recipient_id])
 
-      $('#contacts ul').prepend('<li class="contact" id=\"' + recipient_id + '\"><div class="wrap"><span class="contact-status online"></span><img src=\"' + profile_image + '\" alt="" /><div class="meta"><p class="name">' + recipient_username + '</p><p class="preview">' + "message" + '</p></div></div></li>');
+      $('#contacts ul').prepend('<li class="contact" id=\"'
+        + recipient_id + '\"><div class="wrap"><span class="contact-status online"></span><img src=\"'
+        + profile_image + '\" alt="" /><div class="meta"><p class="name">'
+        + recipient_username + '</p><p class="preview">' + "message" + '</p></div></div></li>');
 
     //   //  Display by default the latest chat user with which the logged user has chat last
     //   $('.content').prepend('<div class="contact-profile"><img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />\
@@ -322,11 +317,7 @@ $("#contacts ul").click(
 
     //Display corresponding username & picture
     //get profile picture depending on stored value
-    if (user_info.profiles[recipient_Uid].profile_picture != "") {
-      profile_image = user_info.profiles[recipient_Uid].profile_picture;
-    } else {
-      profile_image = "/images/person-24px.svg";
-    }
+    let profile_image = image_check(user_info.profiles[recipient_Uid])
     $("#profile-img").attr("src", profile_image)
 
     $("#currentChatUser p").text(recipient_username);
@@ -401,12 +392,8 @@ const get_profile_page = () => {
   $("#profile-email").text(user.email)
 
   //get profile picture depending on stored value
-  if (user.profile_picture != "") {
-    profile_image = user.profile_picture;
-  } else {
-    profile_image = "/images/person-24px.svg";
-  }
-  $("#profile-img").attr("src", profile_image)
+  profile_image = image_check(user);
+  $("#profile-img").attr("src", profile_image);
 
   //write public key if it exists
   console.log(!user.public_key);
@@ -466,4 +453,16 @@ const profile_password_reset = () => {
   password_reset(user_info.profiles[user_info.uid].email)
     .then(() => $("#profile-password").html("Reset Email Sent"))
     .catch(error => $("#profile-password").html("Reset Email Failed to Send"));
+}
+
+//checks if user image is present...otherwise returns default
+const image_check = (user_obj) => {
+  // console.log(user_obj);
+  if (user_obj.profile_picture != "") {
+    profile_image = user_obj.profile_picture;
+  } else {
+    profile_image = "/images/person-24px.svg";
+  }
+
+  return profile_image
 }
