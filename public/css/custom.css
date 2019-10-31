@@ -17,7 +17,14 @@
   filter: blur(5px);
 }
 
-
 #profile {
   cursor: pointer; /* Add a pointer on hover */
+}
+
+.connect-icons {
+  font-size: x-large;
+}
+
+a {
+  color:black;
 }

@@ -291,30 +291,6 @@ var new_user = () => {
   })
 }
 
-document.getElementById('addcontact').addEventListener('click', function () {
-  event.preventDefault();
-  console.log("coming over here..!!");
-
-  var txt;
-  var person = prompt("Please enter User's email you want to chat with: ");
-  if (person == null || person == "") {
-    txt = "You have not entered any email to chat with.";
-  } else {
-    console.log("Hello " + person + "! How are you today?");
-
-    // check_user(person);
-    // get_database('/users', 'email', 'child_changed');
-
-    // apply validation for person entering..
-    // check in db whether that person exits or not..
-
-  //   $('<li class="contact"><div class="wrap"><span class="contact-status online"></span><img src="http://emilcarlsson.se/assets/louislitt.png" \
-  // alt="" /><div class="meta"><p class="name">' + person + '</p><p class="preview">' + "message" + '</p></div></div>\
-  // </li>').appendTo($('#contacts ul'));
-  }
-
-})
-
 document.getElementById('logout').addEventListener('click', function() {
   event.preventDefault();
   localStorage.clear();
@@ -352,6 +328,10 @@ const get_profile_page = () => {
 $("#profile").click(() => {
   get_profile_page(); //get information for user profile page
   open_overlay("#user-profile");
+})
+
+$("#about").click(() => {
+  open_overlay("#about-page");
 })
 
 $(document).keyup(function(e) {
