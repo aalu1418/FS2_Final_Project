@@ -380,8 +380,9 @@ const get_profile_page = () => {
   $("#profile-img").attr("src", profile_image)
 
   //write public key if it exists
-  if (!user.public_key) {
-    $("#profile-metamask").text(user.public_key)
+  console.log(!user.public_key);
+  if (user.public_key) {
+    $("#profile-metamask").html("<p>"+user.public_key+"</p>")
   }
 }
 
