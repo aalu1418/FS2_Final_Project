@@ -204,7 +204,16 @@ const start_messages = () => {
     timeout = 0;
   }
 
-  setTimeout(user_messages, timeout);
+  setTimeout(() => {
+    user_messages();
+
+    const user = user_info.profiles[user_info.uid];
+    //get profile picture depending on stored value
+    const profile_image = image_check(user);
+    $("#profile div img").attr("src", profile_image)
+    $("#profile div p").text(user.username)
+    $("#contacts ul").children().first("li").trigger("click"); //selects the first chat as the chat that opens on open
+  }, timeout)
 };
 
 //get list of messages
@@ -218,8 +227,7 @@ const user_messages = () => {
         // console.log(key + " " + JSON.stringify(data));
         user_info.chats[key][data.key] = data.val();
 
-        //insert function to generate UI
-
+        //insert function to generate UI if active chat
       }
     );
   });
@@ -245,26 +253,12 @@ const user_chats = () => {
       // console.log(data.val().recipient);
       const recipient_id = data.val().recipient;
       const recipient_username = user_info.profiles[recipient_id].username;
+      const profile_image = image_check(user_info.profiles[recipient_id])
 
-      $('#contacts ul').prepend('<li class="contact active" id=\"' + recipient_id + '\"><div class="wrap"><span class="contact-status online"></span><img src="http://emilcarlsson.se/assets/louislitt.png" \
-      alt="" /><div class="meta"><p class="name">' + recipient_username + '</p><p class="preview">' + "message" + '</p></div></div>\
-      </li>');
-
-      //  Display by default the latest chat user with which the logged user has chat last
-      $('.content').prepend('<div class="contact-profile"><img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />\
-      <p id="currentChatUser">' + recipient_username + '</p><div class="social-media">\
-      <i class="fa fa-facebook" aria-hidden="true"></i><i class="fa fa-twitter" aria-hidden="true"></i>\
-      <i class="fa fa-instagram" aria-hidden="true"></i></div></div>\
-      <div class="messages"><ul></ul></div>\
-      <div class="message-input">\
-          <div class="wrap">\
-              <form>\
-                <input type="text" id="sentMsgContent" placeholder="Enter No. of Ethers, Receiver address (Comma separated values)" />\
-                <button class="submit" type="submit"><i class="fa fa-paper-plane"></i></button>\
-              </form>\
-          </div>\
-      </div>\
-    ')
+      $('#contacts ul').prepend('<li class="contact" id=\"'
+        + recipient_id + '\"><div class="wrap"><span class="contact-status online"></span><img src=\"'
+        + profile_image + '\" alt="" /><div class="meta"><p class="name">'
+        + recipient_username + '</p><p class="preview">' + "message" + '</p></div></div></li>');
     }
   );
 };
@@ -275,33 +269,19 @@ $("#contacts ul").click(
   (event) => {
     event.preventDefault();
     recipient_Uid = $(event.target).closest("li")[0].id;
+    $(event.target).closest("li").addClass("active") //set active design
+    $(event.target).closest("li").siblings("li").removeClass("active") //clear active for other li elements
     console.log(recipient_Uid);
     recipient_username = user_info.profiles[recipient_Uid].username;
     console.log(recipient_username);
 
-    //  Validation for any existing chat user instance on click of chat
-    // user and removing the previous instance.
-    var contentDiv = document.querySelector(".content");
-    while (contentDiv.firstChild) {
-      console.log("child loop..!!");
-      contentDiv.removeChild(contentDiv.firstChild);
-    }
+    //Display corresponding username & picture
+    //get profile picture depending on stored value
+    let profile_image = image_check(user_info.profiles[recipient_Uid])
+    $("#profile-img").attr("src", profile_image)
 
-    // Display the corresponding chat section on click of selected chat user.
-    $('.content').prepend('<div class="contact-profile"><img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />\
-  <p id="currentChatUser">' + recipient_username + '</p><div class="social-media">\
-  <i class="fa fa-facebook" aria-hidden="true"></i><i class="fa fa-twitter" aria-hidden="true"></i>\
-  <i class="fa fa-instagram" aria-hidden="true"></i></div></div>\
-  <div class="messages"><ul></ul></div>\
-  <div class="message-input">\
-			<div class="wrap">\
-					<form>\
-            <input type="text" id="sentMsgContent" placeholder="Enter No. of Ethers, Receiver address (Comma separated values)" />\
-						<button class="submit" type="submit"><i class="fa fa-paper-plane"></i></button>\
-					</form>\
-			</div>\
-	</div>\
-')
+    $("#currentChatUser p").text(recipient_username);
+    $(".content .messages ul").html(""); //clear messages
   })
 
 
@@ -365,17 +345,21 @@ const close_overlay = () => {
 
 const get_profile_page = () => {
   let profile_image;
+  const user = user_info.profiles[user_info.uid];
 
-  $("#profile-username").text(user_info.profiles[user_info.uid].username)
-  $("#profile-email").text(user_info.profiles[user_info.uid].email)
+  //write usernamme and email
+  $("#profile-username").text(user.username)
+  $("#profile-email").text(user.email)
 
-  if (user_info.profiles[user_info.uid].profile_picture != "") {
-    profile_image = user_info.profiles[user_info.uid].profile_picture;
-  } else {
-    profile_image = "/images/person-24px.svg";
+  //get profile picture depending on stored value
+  profile_image = image_check(user);
+  $("#profile-img").attr("src", profile_image);
+
+  //write public key if it exists
+  console.log(!user.public_key);
+  if (user.public_key) {
+    $("#profile-metamask").html("<p>"+user.public_key+"</p>")
   }
-
-  $("#profile-img").attr("src", profile_image)
 }
 
 $("#profile").click(() => {
@@ -429,4 +413,16 @@ const profile_password_reset = () => {
   password_reset(user_info.profiles[user_info.uid].email)
     .then(() => $("#profile-password").html("Reset Email Sent"))
     .catch(error => $("#profile-password").html("Reset Email Failed to Send"));
+}
+
+//checks if user image is present...otherwise returns default
+const image_check = (user_obj) => {
+  // console.log(user_obj);
+  if (user_obj.profile_picture != "") {
+    profile_image = user_obj.profile_picture;
+  } else {
+    profile_image = "/images/person-24px.svg";
+  }
+
+  return profile_image
 }
