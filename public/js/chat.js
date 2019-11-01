@@ -336,6 +336,7 @@ var new_user = () => {
   });
 };
 
+//  On click of logout functionality
 document.getElementById("logout").addEventListener("click", function() {
   event.preventDefault();
   localStorage.clear();
@@ -381,9 +382,10 @@ $("#profile").click(() => {
   open_overlay("#user-profile");
 });
 
+//  Opens the send-ether-page on click of money icon button
 $(".submitEther").click(() => {
   event.preventDefault();
-  open_overlay("#send-ethers-page");
+  open_overlay("#send-ethers-page");  //  Opens the Ethers transactions page (i.e. send-ether-page)
 });
 
 let etherAmt; //  global declaration of ethers to be sent
@@ -404,32 +406,31 @@ const displayTxnConfirmMsg = (transactionId) => {
   }
 }
 
+//  Sending ethers from sender to receiver
 const sendEthers = () => {
-  etherAmt = ($("#etherAmount").val());
+  etherAmt = ($("#etherAmount").val());   //  Setting the value of ether amount fetched from the input box
+
+  //  Validation for not entering correct ethers amount.
   if (!etherAmt){
     $("#txn-msg").text("Please enter valid Ether amount..!!").css("color", "red");
     return undefined;
   }
-  senderAddress = check_metamask();
-  receiverAddress = user_info.profiles[current_recipient_id].public_key;
+  senderAddress = check_metamask();   // Check if metamask is there or not and if there, then logged in or not.
+  receiverAddress = user_info.profiles[current_recipient_id].public_key;  //  Fetching the public key of the receiver from DB
+
+  //  Validation if reveiver has public key for cryptocurrency transactions.
   if (!receiverAddress){
     $("#txn-msg").text("Receiver has not created his crypto account as there is no public key found for the user..!!").css("color", "red");
     return undefined;
   }
   console.log("receiver address: " + receiverAddress);
-  send_ether(receiverAddress, etherAmt);
+  send_ether(receiverAddress, etherAmt);  // Sending ethers from Sender to Receiver's address.
 }
 
+//  Send Ethers button click functionality
 $("#sendEthers").click(() => {
   sendEthers();
 })
-
-document.getElementById('logout').addEventListener('click', function () {
-  event.preventDefault();
-  localStorage.clear();
-  logout();
-  window.location.href = "./login.html";
-});
 
 $("#about").click(() => {
   open_overlay("#about-page");
