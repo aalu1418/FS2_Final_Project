@@ -139,13 +139,23 @@ const user_messages = () => {
       data => {
         user_info.chats[key][data.key] = data.val();
         //insert function to generate UI if active chat
-        if (key == current_chat_id) {
+        if (key == current_chat_id) { //if new message in active chat
           const message_obj = Object.entries(data.val()).slice(-1)[0][1]; //convert to array, slice to get the last element at index 0, and the message obj at index 1
 
           const user_pic = image_check(user_info.profiles[user_info.uid]);
-          const recipient_pic = image_check(user_info.profiles[current_recipient_id]);
+          const recipient_pic = image_check(
+            user_info.profiles[current_recipient_id]
+          );
 
-          draw_message(message_obj, user_pic, recipient_pic)
+          draw_message(message_obj, user_pic, recipient_pic); //creates message object
+          $(".messages").animate({ //forces scroll to stay at bottom
+            scrollTop: $(".messages").prop("scrollHeight")
+
+          const chat_identifier = current_recipient_id;
+          });
+        } else { //if new message not in active chat
+            const  = Object.entries(data.val()).slice(-1)[0][1].sender; //get sender id
+            $("#"+sender+" div div p").css("font-weight", "bold")
         }
       }
     );
@@ -170,26 +180,44 @@ const user_chats = () => {
 
       //insert function to generate UI
       // console.log(data.val().recipient);
-      const recipient_id = data.val().recipient;
-      const recipient_username = user_info.profiles[recipient_id].username;
-      const profile_image = image_check(user_info.profiles[recipient_id]);
+      draw_chat(data);
+    }
+  );
 
-      $("#contacts ul").prepend(
-        '<li class="contact" id="' +
-          recipient_id +
-          '" chat_id ="' +
-          data.key +
-          '"><div class="wrap"><span class="contact-status online"></span><img src="' +
-          profile_image +
-          '" alt="" /><div class="meta"><p class="name">' +
-          recipient_username +
-          '</p><p class="preview">' +
-          "message" +
-          "</p></div></div></li>"
-      );
+  get_database( //occurs when new message is sent to user
+    "/chat_ids/" + user_info.uid,
+    "timestamp",
+    "child_changed",
+    data => {
+      const active_check = $("#"+data.val().recipient).hasClass("active"); //check if already active
+      $("#"+data.val().recipient).remove(); //remove elements
+      draw_chat(data); //add element back in
+      if (active_check) { //reapply active if was previously active
+        $("#"+data.val().recipient).addClass("active");
+      }
     }
   );
 };
+
+const draw_chat = (data) => {
+  const recipient_id = data.val().recipient;
+  const recipient_username = user_info.profiles[recipient_id].username;
+  const profile_image = image_check(user_info.profiles[recipient_id]);
+
+  $("#contacts ul").prepend(
+    '<li class="contact" id="' +
+      recipient_id +
+      '" chat_id ="' +
+      data.key +
+      '"><div class="wrap"><span class="contact-status online"></span><img src="' +
+      profile_image +
+      '" alt="" /><div class="meta"><p class="name">' +
+      recipient_username +
+      '</p><p class="preview">' +
+      "message" +
+      "</p></div></div></li>"
+  );
+}
 
 //  On click of available chat user's profile, corresponding message
 // will open and remove the previous chat instance from UI
@@ -230,16 +258,16 @@ $("#contacts ul").click(event => {
     const recipient_pic = image_check(user_info.profiles[recipient_Uid]);
 
     Object.keys(current_messages).forEach(key => {
-      draw_message(current_messages[key], user_pic, recipient_pic)
+      draw_message(current_messages[key], user_pic, recipient_pic);
     });
   }
+  //https://stackoverflow.com/questions/10899632/jquery-make-div-always-scroll-to-bottom
+  $(".messages").animate({ scrollTop: $(".messages").prop("scrollHeight") }); //scroll to bottom of chat
 });
 
 const draw_message = (msg_obj, user_pic, recipient_pic) => {
-  const msg_class =
-    msg_obj.sender == user_info.uid ? "sent" : "replies";
-  const msg_img =
-    msg_obj.sender == user_info.uid ? user_pic : recipient_pic;
+  const msg_class = msg_obj.sender == user_info.uid ? "sent" : "replies";
+  const msg_img = msg_obj.sender == user_info.uid ? user_pic : recipient_pic;
 
   $(".content .messages ul").append(
     '<li class="' +
@@ -265,6 +293,7 @@ const user_profiles = () => {
   });
   get_database("/users", "username", "child_changed", data => {
     user_info.profiles[data.key] = data.val();
+    console.log("check");
   }); //listener for any changes to user profiles
 };
 
