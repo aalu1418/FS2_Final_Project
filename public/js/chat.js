@@ -1,129 +1,3 @@
-msgContentContainer = document.getElementsByClassName('content');
-// msgContentContainer
-// currentChatUser = document.getElementById('currentChatUser').innerText;
-// console.log("current user: " + currentChatUser);
-
-// function msgSent(event){
-//     event.preventDefault();
-//     console.log("coming here..")
-// }
-
-// document.getElementById('msgSent').addEventListener('click', function(event) {
-//     event.preventDefault();
-
-//     sentMsgContent = document.getElementById('sentMsgContent').innerText;
-//     console.log("Msg sent: " + sentMsgContent);
-// })
-
-// function msgsSent(){
-//     event.preventDefault();
-
-//     console.log("sabesjdnkejandek....");
-//     sentMsgContent = document.getElementById('sentMsgContent').value;
-//     console.log("Msg sent: " + sentMsgContent);
-// }
-
-// function test(){
-//     event.preventDefault();
-
-//     console.log("entering test..!!");
-//     randommsg = document.getElementById('textId').value;
-//     console.log("text msg: " + randommsg);
-// }
-
-userMsgsDict = {};      // Key: Current Chat user and Value: Sent Messages array to this current chat user
-sendMsgsArr = [];       // Message objects array
-function newMessage() {
-  message = $(".message-input input").val();
-  console.log("getting msg: " + message);
-
-  //Message Collection and creating object:
-  ethersToSent = '';
-  receiverAddress = '';
-  if ($.trim(message) != "") {
-    if (message.includes(",")) {
-      ethersToSent = message.split(",")[0];
-      receiverAddress = message.split(',')[1];
-
-      //  Message should contain Count of Ethers to be Send
-      if ($.trim(ethersToSent) == '') {
-        errorMessage = "Please enter Number of Ethers to be sent and message should be in comma separated format like \
-                    'xxx ETH, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'";
-        $('<li class="replies"><img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" /><p>' + errorMessage + '</p></li>').appendTo($('.messages ul'));
-        $('.message-input input').val(null);
-        $('.contact.active .preview').html('<span>You: </span>' + message);
-        $(".messages").animate({ scrollTop: $(document).height() }, "fast");
-      }
-
-      //  Message should contain Receiver's Address
-      else if ($.trim(receiverAddress) == '') {
-        errorMessage = "Please enter Receiver's address where you want to send Ethers and message should be in comma separated format like \
-                    'xxx ETH, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'";
-        $('<li class="replies"><img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" /><p>' + errorMessage + '</p></li>').appendTo($('.messages ul'));
-        $('.message-input input').val(null);
-        $('.contact.active .preview').html('<span>You: </span>' + message);
-        $(".messages").animate({ scrollTop: $(document).height() }, "fast");
-
-        // If both the things are there, then message should be from Sent user side.
-      } else {
-        console.log("ethers to sent: " + $.trim(ethersToSent));
-        console.log("wallet address: " + $.trim(receiverAddress));
-        msgObj = {};
-        msgObj["ethersToSent"] = $.trim(ethersToSent);
-        msgObj["receiverAddress"] = $.trim(receiverAddress);
-        sendMsgsArr.push(msgObj);
-
-        $('<li class="sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><p> Ethers to Sent: ' + ethersToSent + '</p><p> Receiver Address: ' + receiverAddress + '</p></li>').appendTo($('.messages ul'));
-        $('.message-input input').val(null);
-        $('.contact.active .preview').html('<span>You: </span>' + message);
-        $(".messages").animate({ scrollTop: $(document).height() }, "fast");
-
-        userMsgsDict[currentChatUser] = sendMsgsArr;
-        console.log(userMsgsDict['Harvey Specter']);
-      }
-    }
-    else {
-      errorMessage = "Please enter message in comma separated format like \
-                'xxx ETH, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'";
-      $('<li class="replies"><img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" /><p>' + errorMessage + '</p></li>').appendTo($('.messages ul'));
-      $('.message-input input').val(null);
-      $('.contact.active .preview').html('<span>You: </span>' + message);
-      $(".messages").animate({ scrollTop: $(document).height() }, "fast");
-    }
-  }
-  else {
-    errorMessage = "Please enter message in comma separated format like \
-            'xxx ETH, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'";
-    $('<li class="replies"><img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" /><p>' + errorMessage + '</p></li>').appendTo($('.messages ul'));
-    $('.message-input input').val(null);
-    $('.contact.active .preview').html('<span>You: </span>' + message);
-    $(".messages").animate({ scrollTop: $(document).height() }, "fast");
-  }
-  // userMsgsDict[currentChatUser] = sendMsgsArr;
-  // console.log(userMsgsDict['Harvey Specter']);
-
-  Object.keys(userMsgsDict).forEach((key, index) => {
-    // console.log("dict msg: " + userMsgsDict[key]);
-  })
-
-  if ($.trim(message) == '') {
-    return false;
-  }
-};
-
-$('.submit').click(function () {
-  event.preventDefault();
-  newMessage();
-});
-
-$(window).on('keydown', function (e) {
-  if (e.which == 13) {
-    newMessage();
-    return false;
-  }
-});
-
-
 //create new database objects for conversation
 const new_convo = recipient_id => {
   let payload = {};
@@ -133,11 +7,11 @@ const new_convo = recipient_id => {
   //append user_id to chat_ids - timestamp used to organize order of chats
   payload["/chat_ids/" + user_info.uid + "/" + chat_id] = {
     timestamp: Date.now(),
-    recipient: recipient_id,
+    recipient: recipient_id
   };
   payload["/chat_ids/" + recipient_id + "/" + chat_id] = {
     timestamp: Date.now(),
-    recipient: user_info.uid,
+    recipient: user_info.uid
   };
 
   update_database(payload); //need to update databse with chat id first to allow write for actual chat
@@ -159,18 +33,41 @@ const generate_id = () => {
   return number[0].toString() + Math.floor(Date.now() / number[0]);
 };
 
+//on send button click - send message
+$("#send_message").click(event => {
+  event.preventDefault();
+  const msg_content = $("#sentMsgContent").val();
+  if (msg_content) {
+    // console.log("message sent");
+    new_message(msg_content, current_chat_id);
+  }
+  $("#sentMsgContent").val("");
+});
+
+//on enter key - send message
+$("#sentMsgContent").on("keypress", function(e) {
+  if (e.which == 13) {
+    const msg_content = $("#sentMsgContent").val();
+    if (msg_content) {
+      // console.log("message sent");
+      new_message(msg_content, current_chat_id);
+    }
+    $("#sentMsgContent").val("");
+  }
+});
+
 //send message as a part of a new conversation
 const new_message = (text, chat_id) => {
   const current_timestamp = Date.now();
   let payload = {};
   //new message with the timestamp as the message number
   payload[
-    "/conversations/" + chat_id.toString() + "/messages/" + Date.now()
+    "/conversations/" + chat_id.toString() + "/messages/" + current_timestamp
   ] = {
-      sender: user_info.uid,
-      message: text,
-      timestamp: current_timestamp
-    };
+    sender: user_info.uid,
+    message: text,
+    timestamp: current_timestamp
+  };
 
   //update timestamps on chats for each user
   get_snapshot("/conversations/" + chat_id).then(snapshot => {
@@ -194,6 +91,8 @@ const new_message = (text, chat_id) => {
 };
 
 //start the chats & messages
+let current_chat_id; //global declaration of current_chat
+let current_recipient_id;
 const start_messages = () => {
   let timeout;
   // debugger;
@@ -210,10 +109,15 @@ const start_messages = () => {
     const user = user_info.profiles[user_info.uid];
     //get profile picture depending on stored value
     const profile_image = image_check(user);
-    $("#profile div img").attr("src", profile_image)
-    $("#profile div p").text(user.username)
-    $("#contacts ul").children().first("li").trigger("click"); //selects the first chat as the chat that opens on open
-  }, timeout)
+    $("#profile div img").attr("src", profile_image);
+    $("#profile div p").text(user.username);
+    setTimeout(() => {
+      $("#contacts ul")
+        .children()
+        .first("li")
+        .trigger("click"); //selects the first chat as the chat that opens on open
+    }, timeout);
+  }, timeout);
 };
 
 //get list of messages
@@ -227,7 +131,37 @@ const user_messages = () => {
         // console.log(key + " " + JSON.stringify(data));
         user_info.chats[key][data.key] = data.val();
 
+        //show image previews on page load
+        if (data.key === "messages") {
+          const latest_message = Object.entries(data.val()).slice(-1)[0][1].message;
+          // https://stackoverflow.com/questions/13392463/jquery-select-all-element-with-custom-attribute
+          $("li[chat_id="+key+"]").children().children("div.meta").children("p.preview").html(latest_message);
+        }
+      }
+    );
+    get_database(
+      "/conversations/" + key.toString(),
+      "timestamp",
+      "child_changed",
+      data => {
+        let chat_identifier;
+        user_info.chats[key][data.key] = data.val();
         //insert function to generate UI if active chat
+        const message_obj = Object.entries(data.val()).slice(-1)[0][1]; //convert to array, slice to get the last element at index 0, and the message obj at index 1
+        if (key == current_chat_id) {
+          //if new message in active chat
+
+          const user_pic = image_check(user_info.profiles[user_info.uid]);
+          const recipient_pic = image_check(
+            user_info.profiles[current_recipient_id]
+          );
+
+          draw_message(message_obj, user_pic, recipient_pic); //creates message object
+          $(".messages").animate({
+            //forces scroll to stay at bottom
+            scrollTop: $(".messages").prop("scrollHeight")
+          });
+        }
       }
     );
   });
@@ -251,39 +185,113 @@ const user_chats = () => {
 
       //insert function to generate UI
       // console.log(data.val().recipient);
-      const recipient_id = data.val().recipient;
-      const recipient_username = user_info.profiles[recipient_id].username;
-      const profile_image = image_check(user_info.profiles[recipient_id])
-
-      $('#contacts ul').prepend('<li class="contact" id=\"'
-        + recipient_id + '\"><div class="wrap"><span class="contact-status online"></span><img src=\"'
-        + profile_image + '\" alt="" /><div class="meta"><p class="name">'
-        + recipient_username + '</p><p class="preview">' + "message" + '</p></div></div></li>');
+      draw_chat(data);
     }
+  );
+
+  get_database(
+    //occurs when new message is sent to user
+    "/chat_ids/" + user_info.uid,
+    "timestamp",
+    "child_changed",
+    data => {
+      const active_check = $("#" + data.val().recipient).hasClass("active"); //check if already active
+      $("#" + data.val().recipient).remove(); //remove elements
+      draw_chat(data); //add element back in
+      if (active_check) {
+        //reapply active if was previously active
+        $("#" + data.val().recipient).addClass("active");
+      }
+      //update the preview text
+      $("#" + data.val().recipient + " div div .preview").html(
+        user_info.chats[data.key].messages[data.val().timestamp].message
+      );
+      if (data.val().recipient != current_recipient_id) { //only bolds if the new message is in a different chat
+        $("#" + data.val().recipient + " div div p").css("font-weight", "bold"); //bold the updated conversation on the side
+      }
+    }
+  );
+};
+
+const draw_chat = data => {
+  const recipient_id = data.val().recipient;
+  const recipient_username = user_info.profiles[recipient_id].username;
+  const profile_image = image_check(user_info.profiles[recipient_id]);
+
+  $("#contacts ul").prepend(
+    '<li class="contact" id="' +
+      recipient_id +
+      '" chat_id ="' +
+      data.key +
+      '"><div class="wrap"><span class="contact-status online"></span><img src="' +
+      profile_image +
+      '" alt="" /><div class="meta"><p class="name">' +
+      recipient_username +
+      '</p><p class="preview">message</p></div></div></li>'
   );
 };
 
 //  On click of available chat user's profile, corresponding message
 // will open and remove the previous chat instance from UI
-$("#contacts ul").click(
-  (event) => {
-    event.preventDefault();
-    recipient_Uid = $(event.target).closest("li")[0].id;
-    $(event.target).closest("li").addClass("active") //set active design
-    $(event.target).closest("li").siblings("li").removeClass("active") //clear active for other li elements
-    console.log(recipient_Uid);
-    recipient_username = user_info.profiles[recipient_Uid].username;
-    console.log(recipient_username);
+$("#contacts ul").click(event => {
+  event.preventDefault();
+  recipient_Uid = $(event.target).closest("li")[0].id;
+  $(event.target)
+    .closest("li")
+    .addClass("active"); //set active design
+  $(event.target)
+    .closest("li")
+    .siblings("li")
+    .removeClass("active"); //clear active for other li elements
+  // console.log(recipient_Uid);
+  recipient_username = user_info.profiles[recipient_Uid].username;
+  // console.log(recipient_username);
 
-    //Display corresponding username & picture
-    //get profile picture depending on stored value
-    let profile_image = image_check(user_info.profiles[recipient_Uid])
-    $("#profile-img").attr("src", profile_image)
+  //Display corresponding username & picture
+  //get profile picture depending on stored value
+  let profile_image = image_check(user_info.profiles[recipient_Uid]);
+  $("#profile-img").attr("src", profile_image);
 
-    $("#currentChatUser p").text(recipient_username);
-    $(".content .messages ul").html(""); //clear messages
-  })
+  $("#currentChatUser p").text(recipient_username);
+  $(".content .messages ul").html(""); //clear messages
 
+  //set current chat
+  current_chat_id = $(event.target)
+    .closest("li")
+    .attr("chat_id"); //update current chat
+  current_recipient_id = $(event.target)
+    .closest("li")
+    .attr("id"); //update current chat
+  const current_messages = user_info.chats[current_chat_id].messages;
+
+  if (current_messages) {
+    //get profile pics
+    const user_pic = image_check(user_info.profiles[user_info.uid]);
+    const recipient_pic = image_check(user_info.profiles[recipient_Uid]);
+
+    Object.keys(current_messages).forEach(key => {
+      draw_message(current_messages[key], user_pic, recipient_pic);
+    });
+  }
+  //https://stackoverflow.com/questions/10899632/jquery-make-div-always-scroll-to-bottom
+  $(".messages").animate({ scrollTop: $(".messages").prop("scrollHeight") }); //scroll to bottom of chat
+  $("#" + recipient_Uid + " div div p").removeAttr('style'); //remove bold when clicked
+});
+
+const draw_message = (msg_obj, user_pic, recipient_pic) => {
+  const msg_class = msg_obj.sender == user_info.uid ? "sent" : "replies";
+  const msg_img = msg_obj.sender == user_info.uid ? user_pic : recipient_pic;
+
+  $(".content .messages ul").append(
+    '<li class="' +
+      msg_class +
+      '"><img src="' +
+      msg_img +
+      '" alt="" /><p>' +
+      msg_obj.message +
+      "</p></li>"
+  );
+};
 
 //get all user profiles
 const user_profiles = () => {
@@ -298,96 +306,100 @@ const user_profiles = () => {
   });
   get_database("/users", "username", "child_changed", data => {
     user_info.profiles[data.key] = data.val();
-  });//listener for any changes to user profiles
+    console.log("check");
+  }); //listener for any changes to user profiles
 };
 
 //  complete this by getting the users from the db (if any) and display the users on the front end..
-window.onload = async function () {
+window.onload = async function() {
   // console.log("..[user profiles].. " + data.key + " " + JSON.stringify(data));
   // user_info.profiles[data.key] = data.val();
 
-  console.log("on load..");
+  // console.log("on load..");
   // console.log(user_info);
   await check_user(); //run command to get access to user_info
   user_profiles(); //get all user profiles
-  new_user();//something to check new user & create the corresponding conversations
+  new_user(); //something to check new user & create the corresponding conversations
   start_messages(); //get messages & chats
-}
+};
 
 var new_user = () => {
-  get_snapshot("/chat_ids/"+user_info.uid).then(snapshot => {
+  get_snapshot("/chat_ids/" + user_info.uid).then(snapshot => {
     // console.log(snapshot.val());
     if (!snapshot.val()) {
-      Object.keys(user_info.profiles).filter(item => item != user_info.uid).forEach(id => new_convo(id))
+      Object.keys(user_info.profiles)
+        .filter(item => item != user_info.uid)
+        .forEach(id => new_convo(id));
     }
-  })
-}
+  });
+};
 
-document.getElementById('logout').addEventListener('click', function() {
+document.getElementById("logout").addEventListener("click", function() {
   event.preventDefault();
   localStorage.clear();
   logout();
   window.location.href = "./login.html";
-})
+});
 
-const open_overlay = (section) => {
+const open_overlay = section => {
   $("#overlay").show();
   $("#frame").addClass("blurred");
   $(section).slideDown();
-}
+};
 
 const close_overlay = () => {
   $("#user-profile").slideUp();
   $("#about-page").slideUp();
   $("#overlay").hide();
   $("#frame").removeClass("blurred");
-}
+};
 
 const get_profile_page = () => {
   let profile_image;
   const user = user_info.profiles[user_info.uid];
 
   //write usernamme and email
-  $("#profile-username").text(user.username)
-  $("#profile-email").text(user.email)
+  $("#profile-username").text(user.username);
+  $("#profile-email").text(user.email);
 
   //get profile picture depending on stored value
   profile_image = image_check(user);
   $("#profile-img").attr("src", profile_image);
 
   //write public key if it exists
-  console.log(!user.public_key);
+  // console.log(!user.public_key);
   if (user.public_key) {
-    $("#profile-metamask").html("<p>"+user.public_key+"</p>")
+    $("#profile-metamask").html("<p>" + user.public_key + "</p>");
   }
-}
+};
 
 $("#profile").click(() => {
   get_profile_page(); //get information for user profile page
   open_overlay("#user-profile");
-})
+});
 
-document.getElementById('logout').addEventListener('click', function () {
+document.getElementById("logout").addEventListener("click", function() {
   event.preventDefault();
   localStorage.clear();
   logout();
   window.location.href = "./login.html";
-})
+});
 
 $("#about").click(() => {
   open_overlay("#about-page");
-})
+});
 
-$("#overlay").click((event) => {
+$("#overlay").click(event => {
   if (event.target.id === "about-page" || event.target.id === "user-profile") {
     close_overlay();
   }
 });
 
 $(document).keyup(function(e) {
-     if (e.key === "Escape") { // escape key maps to keycode `27`
-        close_overlay();
-    }
+  if (e.key === "Escape") {
+    // escape key maps to keycode `27`
+    close_overlay();
+  }
 });
 
 //listener for file upload
@@ -398,25 +410,30 @@ $("#profile_pic_load").change(obj => {
   // Get a reference to the storage service
   var storage = firebase.storage();
   var storage_ref = storage.ref();
-  var images_ref = storage_ref.child("profile_images/"+user_info.uid);
+  var images_ref = storage_ref.child("profile_images/" + user_info.uid);
 
-  write_image(file_dat, file_dat.name, images_ref).then(snapshot => {
-    snapshot.ref.getDownloadURL().then(downloadURL => {
-      write_database("/users/"+user_info.uid+"/profile_picture", downloadURL);
-      // user_info.profiles[user_info.uid].profile_piscture = downloadURL;
-      get_profile_page();
-    });
-  }).catch(error => console.log("[file upload error]: " + error));
+  write_image(file_dat, file_dat.name, images_ref)
+    .then(snapshot => {
+      snapshot.ref.getDownloadURL().then(downloadURL => {
+        write_database(
+          "/users/" + user_info.uid + "/profile_picture",
+          downloadURL
+        );
+        // user_info.profiles[user_info.uid].profile_piscture = downloadURL;
+        get_profile_page();
+      });
+    })
+    .catch(error => console.log("[file upload error]: " + error));
 });
 
 const profile_password_reset = () => {
   password_reset(user_info.profiles[user_info.uid].email)
     .then(() => $("#profile-password").html("Reset Email Sent"))
     .catch(error => $("#profile-password").html("Reset Email Failed to Send"));
-}
+};
 
 //checks if user image is present...otherwise returns default
-const image_check = (user_obj) => {
+const image_check = user_obj => {
   // console.log(user_obj);
   if (user_obj.profile_picture != "") {
     profile_image = user_obj.profile_picture;
@@ -424,5 +441,5 @@ const image_check = (user_obj) => {
     profile_image = "/images/person-24px.svg";
   }
 
-  return profile_image
-}
+  return profile_image;
+};
