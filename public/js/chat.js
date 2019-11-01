@@ -382,8 +382,6 @@ $("#profile").click(() => {
 $(".submitEther").click(() => {
   event.preventDefault();
   open_overlay("#send-ethers-page");
-  
-  $("#ether-img").attr("src", "./images/ether-icon.png");
 });
 
 let etherAmt; //  global declaration of ethers to be sent
@@ -429,7 +427,7 @@ $("#about").click(() => {
 });
 
 $("#overlay").click(event => {
-  if (event.target.id === "about-page" || event.target.id === "user-profile") {
+  if (event.target.id === "about-page" || event.target.id === "user-profile" || event.target.id === "send-ethers-page") {
     close_overlay();
   }
 });
