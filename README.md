@@ -27,13 +27,12 @@ Must contain the following Server-side functionality:
 ### Ideas List: Ether transfer via chat app
 - [x] Realtime database for storing messages & transactions
 - [x] Authentication via Firebase using custom UI
-- [ ] HTML Layout
-  - [ ] Chat page (includes list of all chats, all possible conversations, conversation profile)
+- [x] HTML Layout
+  - [x] Chat page (includes list of all chats, all possible conversations, conversation profile)
   - [x] Personal profile page
   - [x] About page
-- [ ] Chat Functionality
+- [x] Chat Functionality
 - [ ] Ether transfer
-- [ ] Transfer media functionality
 ---
 
 ### Task List
@@ -66,12 +65,12 @@ Must contain the following Server-side functionality:
 - [x] metamask integration
   - [x] get and save users public key
   - [x] use metamask to send ether to a public address
-- [ ] fix redirecting
+- [x] fix redirecting
   - [x] login page as default
   - [x] password reset
   - [x] 404 page handling
   - [x] auto-redirect depending on auth status
-  - [ ] ico image
+  - [x] ico image
 
 #### Deepanshu
 - [x] experiment with Bootstrap
