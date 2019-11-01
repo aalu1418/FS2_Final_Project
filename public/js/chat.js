@@ -62,7 +62,7 @@ const new_message = (text, chat_id) => {
   let payload = {};
   //new message with the timestamp as the message number
   payload[
-    "/conversations/" + chat_id.toString() + "/messages/" + Date.now()
+    "/conversations/" + chat_id.toString() + "/messages/" + current_timestamp
   ] = {
     sender: user_info.uid,
     message: text,
@@ -130,6 +130,13 @@ const user_messages = () => {
       data => {
         // console.log(key + " " + JSON.stringify(data));
         user_info.chats[key][data.key] = data.val();
+
+        //show image previews on page load
+        if (data.key === "messages") {
+          const latest_message = Object.entries(data.val()).slice(-1)[0][1].message;
+          // https://stackoverflow.com/questions/13392463/jquery-select-all-element-with-custom-attribute
+          $("li[chat_id="+key+"]").children().children("div.meta").children("p.preview").html(latest_message);
+        }
       }
     );
     get_database(
@@ -137,10 +144,12 @@ const user_messages = () => {
       "timestamp",
       "child_changed",
       data => {
+        let chat_identifier;
         user_info.chats[key][data.key] = data.val();
         //insert function to generate UI if active chat
-        if (key == current_chat_id) { //if new message in active chat
-          const message_obj = Object.entries(data.val()).slice(-1)[0][1]; //convert to array, slice to get the last element at index 0, and the message obj at index 1
+        const message_obj = Object.entries(data.val()).slice(-1)[0][1]; //convert to array, slice to get the last element at index 0, and the message obj at index 1
+        if (key == current_chat_id) {
+          //if new message in active chat
 
           const user_pic = image_check(user_info.profiles[user_info.uid]);
           const recipient_pic = image_check(
@@ -148,14 +157,10 @@ const user_messages = () => {
           );
 
           draw_message(message_obj, user_pic, recipient_pic); //creates message object
-          $(".messages").animate({ //forces scroll to stay at bottom
-            scrollTop: $(".messages").prop("scrollHeight"),
-
-          chat_identifier: current_recipient_id,
+          $(".messages").animate({
+            //forces scroll to stay at bottom
+            scrollTop: $(".messages").prop("scrollHeight")
           });
-        } else { //if new message not in active chat
-            const sender = Object.entries(data.val()).slice(-1)[0][1].sender; //get sender id
-            $("#"+sender+" div div p").css("font-weight", "bold")
         }
       }
     );
@@ -184,22 +189,31 @@ const user_chats = () => {
     }
   );
 
-  get_database( //occurs when new message is sent to user
+  get_database(
+    //occurs when new message is sent to user
     "/chat_ids/" + user_info.uid,
     "timestamp",
     "child_changed",
     data => {
-      const active_check = $("#"+data.val().recipient).hasClass("active"); //check if already active
-      $("#"+data.val().recipient).remove(); //remove elements
+      const active_check = $("#" + data.val().recipient).hasClass("active"); //check if already active
+      $("#" + data.val().recipient).remove(); //remove elements
       draw_chat(data); //add element back in
-      if (active_check) { //reapply active if was previously active
-        $("#"+data.val().recipient).addClass("active");
+      if (active_check) {
+        //reapply active if was previously active
+        $("#" + data.val().recipient).addClass("active");
+      }
+      //update the preview text
+      $("#" + data.val().recipient + " div div .preview").html(
+        user_info.chats[data.key].messages[data.val().timestamp].message
+      );
+      if (data.val().recipient != current_recipient_id) { //only bolds if the new message is in a different chat
+        $("#" + data.val().recipient + " div div p").css("font-weight", "bold"); //bold the updated conversation on the side
       }
     }
   );
 };
 
-const draw_chat = (data) => {
+const draw_chat = data => {
   const recipient_id = data.val().recipient;
   const recipient_username = user_info.profiles[recipient_id].username;
   const profile_image = image_check(user_info.profiles[recipient_id]);
@@ -213,11 +227,9 @@ const draw_chat = (data) => {
       profile_image +
       '" alt="" /><div class="meta"><p class="name">' +
       recipient_username +
-      '</p><p class="preview">' +
-      "message" +
-      "</p></div></div></li>"
+      '</p><p class="preview">message</p></div></div></li>'
   );
-}
+};
 
 //  On click of available chat user's profile, corresponding message
 // will open and remove the previous chat instance from UI
@@ -263,6 +275,7 @@ $("#contacts ul").click(event => {
   }
   //https://stackoverflow.com/questions/10899632/jquery-make-div-always-scroll-to-bottom
   $(".messages").animate({ scrollTop: $(".messages").prop("scrollHeight") }); //scroll to bottom of chat
+  $("#" + recipient_Uid + " div div p").removeAttr('style'); //remove bold when clicked
 });
 
 const draw_message = (msg_obj, user_pic, recipient_pic) => {
