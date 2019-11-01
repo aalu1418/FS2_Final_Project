@@ -378,7 +378,44 @@ $("#profile").click(() => {
   open_overlay("#user-profile");
 });
 
-document.getElementById("logout").addEventListener("click", function() {
+$(".submitEther").click(() => {
+  event.preventDefault();
+  open_overlay("#send-ethers-page");
+  
+  $("#ether-img").attr("src", "./images/ether-icon.png");
+});
+
+const displayTxnConfirmMsg = (transactionId) => {
+  const msg_content = !transactionId ? "Transaction not successful<br> Transaction Id: " + transactionId : "Transaction successful<br>Transaction id: " + transactionId;
+
+  if (msg_content) {
+    new_message(msg_content, current_chat_id);
+  }
+}
+
+const sendEthers = () => {
+  etherAmt = ($("#etherAmount").val());
+  if (!etherAmt){
+    alert("enter ether amount");
+    return undefined;
+  }
+  senderAddress = check_metamask();
+  receiverAddress = user_info.profiles[current_recipient_id].public_key;
+  if (!receiverAddress){
+    alert("Receiver has not created his crypto account as there is no public key found for the user..!!");
+    return undefined;
+  }
+  console.log("receiver address: " + receiverAddress);
+  transactionId = send_ether(receiverAddress, etherAmt);
+  console.log("Transaction id: " + transactionId);
+  displayTxnConfirmMsg(transactionId);
+}
+
+$("#sendEthers").click(() => {
+  sendEthers();
+})
+
+document.getElementById('logout').addEventListener('click', function () {
   event.preventDefault();
   localStorage.clear();
   logout();
