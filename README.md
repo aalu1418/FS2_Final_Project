@@ -1,27 +1,37 @@
 # Fullstack II Final Project
+Deployed Website: https://gb-fullstackii-project.web.app/  
+Github Repo: https://github.com/aalu1418/FS2_Final_Project
 
-### Project Specifications
+### Developer Information
+- Deepanshu Gupta
+- Aaron Lu - 101278524
+---
+
+### Project Specifications & Description
+This Fullstack II project is a simple chat where a registered user is able to message any current user in real-time.
+
 Must contain the following Client-side functionality:
 - Entry page with intuitive navigation
+  - Simple chat navigation screen similar to common chat platforms
 - Authentication - can be Firebase, basic, simulated, external, etc.
+  - Use of firebase to manage the user registration and authentication process
 - User profile page
+  - User profile page is accessed by click on the users name or picture.
+  - Allows access to reset password, upload a profile picture, and attach a public key using Metamask
 - Main App page with access that is different for authenticated users from nonauthenticated users
+  - Authenticated users will see all available chats and messages in chat.html
+  - Nonauthenticated users will be automatically redirected to login.html. The framework of chat.html is visible for a moment but they have no access to the database.
 
 About page with:
 - Team info including mini-bio with pic for each team member
 - Contact info placeholder
 Must contain the following Server-side functionality:
 - Serving of content based on user requests
+  - User request include the different chats, viewing their own profiles, receiving messages
 - Handling of user submitted data
+  - User submitted data includes sending messages, and uploading profile pictures
 - Error handling
----
-
-### Project Overview
----
-
-### Developer Information
-##### Deepanshu Gupta  
-##### Aaron Lu
+  - Various forms of error handling are included for the various listeners, function calls, etc
 ---
 
 ### Ideas List: Ether transfer via chat app
