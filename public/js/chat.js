@@ -311,13 +311,13 @@ const user_profiles = () => {
 };
 
 //  complete this by getting the users from the db (if any) and display the users on the front end..
-window.onload = async function() {
+window.onload = async () => {
   // console.log("..[user profiles].. " + data.key + " " + JSON.stringify(data));
   // user_info.profiles[data.key] = data.val();
 
   // console.log("on load..");
   // console.log(user_info);
-  await check_user(); //run command to get access to user_info
+  await check_user().then(redirect); //run command to get access to user_info
   user_profiles(); //get all user profiles
   new_user(); //something to check new user & create the corresponding conversations
   start_messages(); //get messages & chats

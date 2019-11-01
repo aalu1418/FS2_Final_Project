@@ -67,9 +67,11 @@ Must contain the following Server-side functionality:
   - [x] get and save users public key
   - [x] use metamask to send ether to a public address
 - [ ] fix redirecting
-  - [ ] login page as default
-  - [ ] password reset
-  - [ ] 404 page handling
+  - [x] login page as default
+  - [x] password reset
+  - [x] 404 page handling
+  - [x] auto-redirect depending on auth status
+  - [ ] ico image
 
 #### Deepanshu
 - [x] experiment with Bootstrap

@@ -16,8 +16,8 @@ if (!firebase.apps.length) {
 
 //get login information
 let user_info;
-const check_user = () =>
-  new Promise(resolve => {
+const check_user = () => {
+  let get_user = new Promise(resolve => {
     firebase.auth().onAuthStateChanged(
       function(user) {
         if (user) {
@@ -32,13 +32,23 @@ const check_user = () =>
     );
   });
 
+  let get_timeout = new Promise(resolve => setTimeout(resolve, 1000))
+
+  return Promise.race([get_user, get_timeout])
+}
+
 //redirect to chat page based if user is logged in or not
 var redirect = () => {
-  if (user_info) {
-    console.log("[login success]");
-    window.location.href = "./chat.html";
+  console.log("checking redirect");
+  if (user_info) { //if user is logged in
+    // console.log("[login success]");
+    if (window.location.pathname != "/chat.html") { //redirect to chat if not on chat
+      window.location.href = "./chat.html";
+    }
   } else {
-    console.log("[login failed]");
+    if (window.location.pathname == "/chat.html") { //redirect to login if not logged in
+      window.location.href = "/";
+    }
   }
 };
 

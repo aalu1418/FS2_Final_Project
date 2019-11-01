@@ -1,3 +1,8 @@
+//check if user is logged in -> redirect to chat if they are
+window.onload = async () => {
+  await check_user().then(redirect); //run command to get access to user_info
+};
+
 // Password and confirm password match check
 function passwordMatch() {
   if (
@@ -23,9 +28,9 @@ var register = async () => {
     document.getElementById("confirmPassword").value
   ) {
     new_user(email, password);
-    await check_user();
+    await check_user(); //checking authentication
     write_user_to_db(user_info.uid, name, email, ""); //need await to wait for user_info promise to resolve
-    redirect();
+    redirect(); //redirects when authentication is verified
   }
 }
 
