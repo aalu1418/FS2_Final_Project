@@ -367,11 +367,18 @@ $("#profile").click(() => {
 
 $(".submitEther").click(() => {
   event.preventDefault();
-  console.log("ethers send part..");
   open_overlay("#send-ethers-page");
   
   $("#ether-img").attr("src", "./images/ether-icon.png");
 });
+
+const displayTxnConfirmMsg = (transactionId) => {
+  const msg_content = !transactionId ? "Transaction not successful<br> Transaction Id: " + transactionId : "Transaction successful<br>Transaction id: " + transactionId;
+
+  if (msg_content) {
+    new_message(msg_content, current_chat_id);
+  }
+}
 
 const sendEthers = () => {
   etherAmt = ($("#etherAmount").val());
@@ -385,7 +392,10 @@ const sendEthers = () => {
     alert("Receiver has not created his crypto account as there is no public key found for the user..!!");
     return undefined;
   }
+  console.log("receiver address: " + receiverAddress);
   transactionId = send_ether(receiverAddress, etherAmt);
+  console.log("Transaction id: " + transactionId);
+  displayTxnConfirmMsg(transactionId);
 }
 
 $("#sendEthers").click(() => {
