@@ -223,7 +223,7 @@ const draw_chat = data => {
       recipient_id +
       '" chat_id ="' +
       data.key +
-      '"><div class="wrap"><span class="contact-status online"></span><img src="' +
+      '"><div class="wrap"><img src="' +
       profile_image +
       '" alt="" /><div class="meta"><p class="name">' +
       recipient_username +
