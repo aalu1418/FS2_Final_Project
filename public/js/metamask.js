@@ -1,3 +1,4 @@
+//gets the public key when "connect to metamask" button is pressed
 const get_publickey = () => {
   check_metamask().then((address) => {
     if (address) {
@@ -17,7 +18,7 @@ const check_metamask = async () => {
     //if metamask present
     console.log(ethereum.selectedAddress);
     if (!ethereum.selectedAddress) {
-      await ethereum.enable();
+      await ethereum.enable(); //starts metamask & connects to the webpages
     }
     return ethereum.selectedAddress;
   } else {
@@ -25,6 +26,7 @@ const check_metamask = async () => {
   }
 };
 
+//send ether to specific address
 const send_ether = (to_address, amt_eth) => {
   //https://ethereum.stackexchange.com/questions/42929/send-payment-from-wallet-using-web3
   const amt_wei = web3.toWei(amt_eth, "ether");
@@ -39,7 +41,7 @@ const send_ether = (to_address, amt_eth) => {
   //   let promise = new Promise((res, rej) => {
   //     setTimeout(() => {if (!err){
   //       return transaction;
-  //     }}, 30000);  
+  //     }}, 30000);
   //   });
   //   if (!err) {
   //     console.log(transaction);

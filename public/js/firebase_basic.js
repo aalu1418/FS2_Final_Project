@@ -15,8 +15,9 @@ if (!firebase.apps.length) {
 }
 
 //get login information
-let user_info;
+let user_info; //globally defined object used for storage & user auth
 const check_user = () => {
+  //promise for getting user_info
   let get_user = new Promise(resolve => {
     firebase.auth().onAuthStateChanged(
       function(user) {
@@ -32,8 +33,10 @@ const check_user = () => {
     );
   });
 
+  //timeout promise
   let get_timeout = new Promise(resolve => setTimeout(resolve, 1000))
 
+  //returns the first one finished - creates a timeout in case get_user hangs (occurs when user is not logged in)
   return Promise.race([get_user, get_timeout])
 }
 

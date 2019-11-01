@@ -1,3 +1,47 @@
+//global declarations for current chat
+let current_chat_id;
+let current_recipient_id;
+
+window.onload = async () => {
+  // console.log("..[user profiles].. " + data.key + " " + JSON.stringify(data));
+  // user_info.profiles[data.key] = data.val();
+
+  // console.log("on load..");
+  // console.log(user_info);
+  await check_user().then(redirect); //run command to get access to user_info
+  user_profiles(); //get all user profiles
+  new_user(); //something to check new user & create the corresponding conversations
+  start_messages(); //get messages & chats
+};
+
+//start the chats & messages
+const start_messages = () => {
+  let timeout;
+  // debugger;
+  if (!user_info.chats) {
+    user_chats(); //call user_chats to create user_info.chats if necessary
+    timeout = 1000; //need a delay before next function because user_chats does not return a promise
+  } else {
+    timeout = 0;
+  }
+
+  setTimeout(() => {
+    user_messages();
+
+    const user = user_info.profiles[user_info.uid];
+    //get profile picture depending on stored value
+    const profile_image = image_check(user);
+    $("#profile div img").attr("src", profile_image);
+    $("#profile div p").text(user.username);
+    setTimeout(() => {
+      $("#contacts ul")
+      .children()
+      .first("li")
+      .trigger("click"); //selects the first chat as the chat that opens on open
+    }, timeout);
+  }, timeout);
+};
+
 //create new database objects for conversation
 const new_convo = recipient_id => {
   let payload = {};
@@ -88,36 +132,6 @@ const new_message = (text, chat_id) => {
 
   // console.log(payload);
   update_database(payload);
-};
-
-//start the chats & messages
-let current_chat_id; //global declaration of current_chat
-let current_recipient_id;
-const start_messages = () => {
-  let timeout;
-  // debugger;
-  if (!user_info.chats) {
-    user_chats(); //call user_chats to create user_info.chats if necessary
-    timeout = 1000; //need a delay before next function because user_chats does not return a promise
-  } else {
-    timeout = 0;
-  }
-
-  setTimeout(() => {
-    user_messages();
-
-    const user = user_info.profiles[user_info.uid];
-    //get profile picture depending on stored value
-    const profile_image = image_check(user);
-    $("#profile div img").attr("src", profile_image);
-    $("#profile div p").text(user.username);
-    setTimeout(() => {
-      $("#contacts ul")
-        .children()
-        .first("li")
-        .trigger("click"); //selects the first chat as the chat that opens on open
-    }, timeout);
-  }, timeout);
 };
 
 //get list of messages
@@ -213,11 +227,13 @@ const user_chats = () => {
   );
 };
 
+//function to draw the conversation item on left side
 const draw_chat = data => {
   const recipient_id = data.val().recipient;
   const recipient_username = user_info.profiles[recipient_id].username;
   const profile_image = image_check(user_info.profiles[recipient_id]);
 
+  //create html object and prepend
   $("#contacts ul").prepend(
     '<li class="contact" id="' +
       recipient_id +
@@ -278,6 +294,7 @@ $("#contacts ul").click(event => {
   $("#" + recipient_Uid + " div div p").removeAttr('style'); //remove bold when clicked
 });
 
+//create html object for each individual message
 const draw_message = (msg_obj, user_pic, recipient_pic) => {
   const msg_class = msg_obj.sender == user_info.uid ? "sent" : "replies";
   const msg_img = msg_obj.sender == user_info.uid ? user_pic : recipient_pic;
@@ -310,23 +327,11 @@ const user_profiles = () => {
   }); //listener for any changes to user profiles
 };
 
-//  complete this by getting the users from the db (if any) and display the users on the front end..
-window.onload = async () => {
-  // console.log("..[user profiles].. " + data.key + " " + JSON.stringify(data));
-  // user_info.profiles[data.key] = data.val();
-
-  // console.log("on load..");
-  // console.log(user_info);
-  await check_user().then(redirect); //run command to get access to user_info
-  user_profiles(); //get all user profiles
-  new_user(); //something to check new user & create the corresponding conversations
-  start_messages(); //get messages & chats
-};
-
+//runs if a new user is detected and creates conversations with all other users
 var new_user = () => {
   get_snapshot("/chat_ids/" + user_info.uid).then(snapshot => {
     // console.log(snapshot.val());
-    if (!snapshot.val()) {
+    if (!snapshot.val()) {//if snapshot is empty (no conversations exist)
       Object.keys(user_info.profiles)
         .filter(item => item != user_info.uid)
         .forEach(id => new_convo(id));
@@ -334,12 +339,14 @@ var new_user = () => {
   });
 };
 
+//function to open overlay and specific section
 const open_overlay = section => {
   $("#overlay").show();
   $("#frame").addClass("blurred");
   $(section).slideDown();
 };
 
+//function to close overlay and all sections
 const close_overlay = () => {
   $("#user-profile").slideUp();
   $("#about-page").slideUp();
@@ -347,6 +354,7 @@ const close_overlay = () => {
   $("#frame").removeClass("blurred");
 };
 
+//get information for profile page
 const get_profile_page = () => {
   let profile_image;
   const user = user_info.profiles[user_info.uid];
@@ -366,11 +374,13 @@ const get_profile_page = () => {
   }
 };
 
+//launch profile page
 $("#profile").click(() => {
   get_profile_page(); //get information for user profile page
   open_overlay("#user-profile");
 });
 
+//launch sending ether page
 $(".submitEther").click(() => {
   event.preventDefault();
   open_overlay("#send-ethers-page");
@@ -378,6 +388,7 @@ $(".submitEther").click(() => {
   $("#ether-img").attr("src", "./images/ether-icon.png");
 });
 
+//function to send transaction message to chat
 const displayTxnConfirmMsg = (transactionId) => {
   const msg_content = !transactionId ? "Transaction not successful<br> Transaction Id: " + transactionId : "Transaction successful<br>Transaction id: " + transactionId;
 
@@ -386,14 +397,15 @@ const displayTxnConfirmMsg = (transactionId) => {
   }
 }
 
+//function called to send ether
 const sendEthers = () => {
-  etherAmt = ($("#etherAmount").val());
+  const etherAmt = $("#etherAmount").val();
   if (!etherAmt){
     alert("enter ether amount");
     return undefined;
   }
-  senderAddress = check_metamask();
-  receiverAddress = user_info.profiles[current_recipient_id].public_key;
+  const senderAddress = check_metamask(); // TODO: write address to db & handling if metamask not present
+  const receiverAddress = user_info.profiles[current_recipient_id].public_key;
   if (!receiverAddress){
     alert("Receiver has not created his crypto account as there is no public key found for the user..!!");
     return undefined;
@@ -404,10 +416,12 @@ const sendEthers = () => {
   displayTxnConfirmMsg(transactionId);
 }
 
+//listener to run send ethers
 $("#sendEthers").click(() => {
   sendEthers();
 })
 
+//logout button listener
 $("#logout").click(event => {
   event.preventDefault();
   localStorage.clear();
@@ -456,6 +470,7 @@ $("#profile_pic_load").change(obj => {
     .catch(error => console.log("[file upload error]: " + error));
 });
 
+//reset password button listener
 const profile_password_reset = () => {
   password_reset(user_info.profiles[user_info.uid].email)
     .then(() => $("#profile-password").html("Reset Email Sent"))
