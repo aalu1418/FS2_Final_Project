@@ -2,7 +2,7 @@ const get_publickey = () => {
   check_metamask().then((address) => {
     if (address) {
       $("#profile-metamask").text(address);
-      write_database("/users/"+user_info.uid+"/public_key", address)
+      write_database("/users/" + user_info.uid + "/public_key", address)
     } else {
       $("#profile-metamask").html(
         'No web3 instance found. Please install <a href="https://metamask.io" target="_blank">Metamask</a>.'
@@ -34,4 +34,17 @@ const send_ether = (to_address, amt_eth) => {
       console.log(transaction);
     }
   })
+
+  // web3.eth.sendTransaction({ to: to_address, value: amt_wei }, async (err, transaction) => {
+  //   let promise = new Promise((res, rej) => {
+  //     setTimeout(() => {if (!err){
+  //       return transaction;
+  //     }}, 30000);  
+  //   });
+  //   if (!err) {
+  //     console.log(transaction);
+  //     let result = await promise;
+  //     console.log("result: " + result)
+  //   }
+  // })
 }
