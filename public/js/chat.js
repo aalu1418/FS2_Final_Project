@@ -367,6 +367,14 @@ $("#profile").click(() => {
   open_overlay("#user-profile");
 })
 
+$(".submitEther").click(() => {
+  event.preventDefault();
+  console.log("ethers send part..");
+  open_overlay("#send-ethers-page");
+  
+  $("#ether-img").attr("src", "./images/ether-icon.png");
+})
+
 document.getElementById('logout').addEventListener('click', function () {
   event.preventDefault();
   localStorage.clear();
