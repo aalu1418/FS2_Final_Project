@@ -334,13 +334,6 @@ var new_user = () => {
   });
 };
 
-document.getElementById("logout").addEventListener("click", function() {
-  event.preventDefault();
-  localStorage.clear();
-  logout();
-  window.location.href = "./login.html";
-});
-
 const open_overlay = section => {
   $("#overlay").show();
   $("#frame").addClass("blurred");
@@ -378,11 +371,11 @@ $("#profile").click(() => {
   open_overlay("#user-profile");
 });
 
-document.getElementById("logout").addEventListener("click", function() {
-  event.preventDefault();
+$("#logout").click(() => {
+  // event.preventDefault();
   localStorage.clear();
   logout();
-  window.location.href = "./login.html";
+  window.location.href = "/";
 });
 
 $("#about").click(() => {

@@ -63,9 +63,13 @@ Must contain the following Server-side functionality:
   - [x] function for getting messages
   - [x] get user list (people who you can send messages to, and get images)
   - [x] set user profile picture & profile page
-- [ ] metamask integration
-  - [ ] get and save users public key
-  - [ ] use metamask to send ether to a public address
+- [x] metamask integration
+  - [x] get and save users public key
+  - [x] use metamask to send ether to a public address
+- [ ] fix redirecting
+  - [ ] login page as default
+  - [ ] password reset
+  - [ ] 404 page handling
 
 #### Deepanshu
 - [x] experiment with Bootstrap
