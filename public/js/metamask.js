@@ -32,19 +32,7 @@ const send_ether = (to_address, amt_eth) => {
   web3.eth.sendTransaction({to:to_address, value:amt_wei}, (err, transaction) => {
     if (!err) {
       console.log(transaction);
+      displayTxnConfirmMsg(transaction);
     }
   })
-
-  // web3.eth.sendTransaction({ to: to_address, value: amt_wei }, async (err, transaction) => {
-  //   let promise = new Promise((res, rej) => {
-  //     setTimeout(() => {if (!err){
-  //       return transaction;
-  //     }}, 30000);  
-  //   });
-  //   if (!err) {
-  //     console.log(transaction);
-  //     let result = await promise;
-  //     console.log("result: " + result)
-  //   }
-  // })
 }

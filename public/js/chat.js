@@ -350,6 +350,7 @@ const open_overlay = section => {
 const close_overlay = () => {
   $("#user-profile").slideUp();
   $("#about-page").slideUp();
+  $("#send-ethers-page").slideUp();
   $("#overlay").hide();
   $("#frame").removeClass("blurred");
 };
@@ -408,7 +409,6 @@ const sendEthers = () => {
   console.log("receiver address: " + receiverAddress);
   transactionId = send_ether(receiverAddress, etherAmt);
   console.log("Transaction id: " + transactionId);
-  displayTxnConfirmMsg(transactionId);
 }
 
 $("#sendEthers").click(() => {
