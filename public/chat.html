@@ -216,7 +216,7 @@ Website: http://emilcarlsson.se/
 		<div id="send-ethers-page" class="row justify-content-center h-75" style="display:none">
 			<div class="col-8 align-self-center" style="max-width:700px">
 				<div class="row justify-content-center h-50 m-4">
-					<img id=ether-img class="h-100 rounded-circle bg-secondary" style="border: 5px solid white;">
+					<img id=ether-img class="h-100 rounded-circle bg-secondary" style="border: 5px solid rgb(148, 221, 113);">
 				</div>
 				<div class="row justify-content-center">
 					<div class="col align-self-center">
@@ -229,11 +229,11 @@ Website: http://emilcarlsson.se/
 											<div class="input-group-prepend">
 												<span class="input-group-text" id="basic-addon1">Enter Ether</span>
 											</div>
-											<input type="number" class="form-control"
+											<input id="etherAmount" type="number" class="form-control"
 												placeholder="Enter the ethers number to be sent" aria-label="Username"
 												aria-describedby="basic-addon1" required>
 											<p class="align-self-center">
-												<label class="btn btn-dark ml-4">Send Ethers</label>
+												<label id="sendEthers" class="btn btn-dark ml-4">Send Ethers</label>
 											</p>
 										</div>
 

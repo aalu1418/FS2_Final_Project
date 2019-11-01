@@ -371,6 +371,25 @@ $(".submitEther").click(() => {
   open_overlay("#send-ethers-page");
   
   $("#ether-img").attr("src", "./images/ether-icon.png");
+});
+
+const sendEthers = () => {
+  etherAmt = ($("#etherAmount").val());
+  if (!etherAmt){
+    alert("enter ether amount");
+    return undefined;
+  }
+  senderAddress = check_metamask();
+  receiverAddress = user_info.profiles[current_recipient_id].public_key;
+  if (!receiverAddress){
+    alert("Receiver has not created his crypto account as there is no public key found for the user..!!");
+    return undefined;
+  }
+  transactionId = send_ether(receiverAddress, etherAmt);
+}
+
+$("#sendEthers").click(() => {
+  sendEthers();
 })
 
 document.getElementById('logout').addEventListener('click', function () {

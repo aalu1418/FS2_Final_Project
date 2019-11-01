@@ -32,6 +32,7 @@ const send_ether = (to_address, amt_eth) => {
   web3.eth.sendTransaction({to:to_address, value:amt_wei}, (err, transaction) => {
     if (!err) {
       console.log(transaction);
+      return transaction;
     }
-  })
+  })  
 }
