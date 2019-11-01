@@ -254,6 +254,8 @@ $("#contacts ul").click(event => {
 
   $("#currentChatUser p").text(recipient_username);
   $(".content .messages ul").html(""); //clear messages
+  $("#txn-msg").html(""); //  clear any failed or success transaction message from send-ether-page
+  $("#etherAmount").val("");  //  Reset the input field of entering ethers amount for every user on click
 
   //set current chat
   current_chat_id = $(event.target)
@@ -386,10 +388,17 @@ $(".submitEther").click(() => {
 
 let etherAmt; //  global declaration of ethers to be sent
 const displayTxnConfirmMsg = (transactionId) => {
-  const msg_content = !transactionId ? "Transaction not successful<br> No. of ethers tried to send: " + ('"'+etherAmt+'"') + "<br>\
-  Transaction Id: " + transactionId : "Transaction successful<br>No. of Ethers sent: " + ('"'+etherAmt+'"') + "<br>Transaction id: \
-  " + ('"'+transactionId+'"').slice(0,('"'+transactionId+'"').length/2) + "<br>" + ('"'+transactionId+'"').slice(('"'+transactionId+'"').length/2);
 
+  if (!transactionId ){
+    $("#txn-msg").text("Transaction not successful..!!").css("color", "red");
+    msg_content = "Transaction not successful<br> No. of ethers tried to send: " + ('"'+etherAmt+'"') + "<br>Transaction Id: " + transactionId;
+  }
+  else {
+    $("#txn-msg").text("Transaction successful..!!").css("color", "green");
+    msg_content = "Transaction successful<br>No. of Ethers sent: " + ('"'+etherAmt+'"') + "<br>Transaction id: \
+    " + ('"'+transactionId+'"').slice(0,('"'+transactionId+'"').length/2) + "<br>" + ('"'+transactionId+'"').slice(('"'+transactionId+'"').length/2);
+  }
+  
   if (msg_content) {
     new_message(msg_content, current_chat_id);
   }
@@ -398,13 +407,13 @@ const displayTxnConfirmMsg = (transactionId) => {
 const sendEthers = () => {
   etherAmt = ($("#etherAmount").val());
   if (!etherAmt){
-    alert("enter ether amount");
+    $("#txn-msg").text("Please enter valid Ether amount..!!").css("color", "red");
     return undefined;
   }
   senderAddress = check_metamask();
   receiverAddress = user_info.profiles[current_recipient_id].public_key;
   if (!receiverAddress){
-    alert("Receiver has not created his crypto account as there is no public key found for the user..!!");
+    $("#txn-msg").text("Receiver has not created his crypto account as there is no public key found for the user..!!").css("color", "red");
     return undefined;
   }
   console.log("receiver address: " + receiverAddress);
