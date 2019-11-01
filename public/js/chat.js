@@ -386,8 +386,11 @@ $(".submitEther").click(() => {
   $("#ether-img").attr("src", "./images/ether-icon.png");
 });
 
+let etherAmt; //  global declaration of ethers to be sent
 const displayTxnConfirmMsg = (transactionId) => {
-  const msg_content = !transactionId ? "Transaction not successful<br> Transaction Id: " + transactionId : "Transaction successful<br>Transaction id: " + transactionId;
+  const msg_content = !transactionId ? "Transaction not successful<br> No. of ethers tried to send: " + ('"'+etherAmt+'"') + "<br>\
+  Transaction Id: " + transactionId : "Transaction successful<br>No. of Ethers sent: " + ('"'+etherAmt+'"') + "<br>Transaction id: \
+  " + ('"'+transactionId+'"').slice(0,('"'+transactionId+'"').length/2) + "<br>" + ('"'+transactionId+'"').slice(('"'+transactionId+'"').length/2);
 
   if (msg_content) {
     new_message(msg_content, current_chat_id);
@@ -407,8 +410,7 @@ const sendEthers = () => {
     return undefined;
   }
   console.log("receiver address: " + receiverAddress);
-  transactionId = send_ether(receiverAddress, etherAmt);
-  console.log("Transaction id: " + transactionId);
+  send_ether(receiverAddress, etherAmt);
 }
 
 $("#sendEthers").click(() => {

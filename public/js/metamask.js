@@ -33,6 +33,9 @@ const send_ether = (to_address, amt_eth) => {
     if (!err) {
       console.log(transaction);
       displayTxnConfirmMsg(transaction);
+    } else {
+      console.log("txn: " + transaction);
+      displayTxnConfirmMsg(transaction);
     }
   })
 }
