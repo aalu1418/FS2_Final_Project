@@ -35,9 +35,9 @@ const start_messages = () => {
     $("#profile div p").text(user.username);
     setTimeout(() => {
       $("#contacts ul")
-      .children()
-      .first("li")
-      .trigger("click"); //selects the first chat as the chat that opens on open
+        .children()
+        .first("li")
+        .trigger("click"); //selects the first chat as the chat that opens on open
     }, timeout);
   }, timeout);
 };
@@ -329,7 +329,7 @@ const user_profiles = () => {
   });
   get_database("/users", "username", "child_changed", data => {
     user_info.profiles[data.key] = data.val();
-    console.log("check");
+    // console.log("check");
   }); //listener for any changes to user profiles
 };
 
@@ -337,7 +337,8 @@ const user_profiles = () => {
 var new_user = () => {
   get_snapshot("/chat_ids/" + user_info.uid).then(snapshot => {
     // console.log(snapshot.val());
-    if (!snapshot.val()) {//if snapshot is empty (no conversations exist)
+    if (!snapshot.val()) {
+      //if snapshot is empty (no conversations exist)
       Object.keys(user_info.profiles)
         .filter(item => item != user_info.uid)
         .forEach(id => new_convo(id));
@@ -419,7 +420,6 @@ const displayTxnConfirmMsg = (transactionId, etherAmt) => {
       transactionId.slice(transactionId.length / 2);
   }
 
-
   if (msg_content) {
     new_message(msg_content, current_chat_id);
   }
@@ -435,30 +435,48 @@ const sendEthers = () => {
       .text("Please enter valid ether amount.")
       .css("color", "red");
   }
-  senderAddress = check_metamask(); // Check if metamask is there or not and if there, then logged in or not.
+
   const receiverAddress = user_info.profiles[current_recipient_id].public_key; //  Fetching the public key of the receiver from DB
 
   //  Validation if reveiver has public key for cryptocurrency transactions.
   if (!receiverAddress) {
     $("#txn-msg")
-      .text("There is no public key found for the recipient.")
-      .css("color", "red");
+    .text("There is no public key found for the recipient.")
+    .css("color", "red");
   }
-  // console.log("receiver address: " + receiverAddress);
-  send_ether(receiverAddress, etherAmt); // Sending ethers from Sender to Receiver's address.
+
+  // Check if metamask is there or not and if there, then logged in or not.
+  check_metamask().then(address => {
+    if (address) {//if address is present
+      //write to database if address is found
+      if (!user_info.profiles[user_info.uid].public_key) { //write to database if not found
+        write_database("/users/" + user_info.uid + "/public_key", address);
+      }
+      // console.log("receiver address: " + receiverAddress);
+      send_ether(receiverAddress, etherAmt); // Sending ethers from Sender to Receiver's address.
+    } else {
+      $("#txn-msg")
+        .html(
+          'No web3 instance found. Please install <a href="https://metamask.io" target="_blank">Metamask</a>.'
+        )
+        .css("color", "red");
+    }
+  });
+
 };
 
 //listener to run send ethers
 $("#sendEthers").click(() => {
   sendEthers();
-})
+});
 
 //logout button listener
 $("#logout").click(event => {
   event.preventDefault();
   localStorage.clear();
   logout();
-  window.location.href = "/";s
+  window.location.href = "/";
+  s;
 });
 
 $("#about").click(() => {
