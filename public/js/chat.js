@@ -254,6 +254,8 @@ $("#contacts ul").click(event => {
 
   $("#currentChatUser p").text(recipient_username);
   $(".content .messages ul").html(""); //clear messages
+  $("#txn-msg").html(""); //  clear any failed or success transaction message from send-ether-page
+  $("#etherAmount").val("");  //  Reset the input field of entering ethers amount for every user on click
 
   //set current chat
   current_chat_id = $(event.target)
@@ -334,6 +336,7 @@ var new_user = () => {
   });
 };
 
+//  On click of logout functionality
 document.getElementById("logout").addEventListener("click", function() {
   event.preventDefault();
   localStorage.clear();
@@ -350,6 +353,7 @@ const open_overlay = section => {
 const close_overlay = () => {
   $("#user-profile").slideUp();
   $("#about-page").slideUp();
+  $("#send-ethers-page").slideUp();
   $("#overlay").hide();
   $("#frame").removeClass("blurred");
 };
@@ -378,56 +382,62 @@ $("#profile").click(() => {
   open_overlay("#user-profile");
 });
 
+//  Opens the send-ether-page on click of money icon button
 $(".submitEther").click(() => {
   event.preventDefault();
-  open_overlay("#send-ethers-page");
-  
-  $("#ether-img").attr("src", "./images/ether-icon.png");
+  open_overlay("#send-ethers-page");  //  Opens the Ethers transactions page (i.e. send-ether-page)
 });
 
+let etherAmt; //  global declaration of ethers to be sent
 const displayTxnConfirmMsg = (transactionId) => {
-  const msg_content = !transactionId ? "Transaction not successful<br> Transaction Id: " + transactionId : "Transaction successful<br>Transaction id: " + transactionId;
 
+  if (!transactionId ){
+    $("#txn-msg").text("Transaction not successful..!!").css("color", "red");
+    msg_content = "Transaction not successful<br> No. of ethers tried to send: " + ('"'+etherAmt+'"') + "<br>Transaction Id: " + transactionId;
+  }
+  else {
+    $("#txn-msg").text("Transaction successful..!!").css("color", "green");
+    msg_content = "Transaction successful<br>No. of Ethers sent: " + ('"'+etherAmt+'"') + "<br>Transaction id: \
+    " + ('"'+transactionId+'"').slice(0,('"'+transactionId+'"').length/2) + "<br>" + ('"'+transactionId+'"').slice(('"'+transactionId+'"').length/2);
+  }
+  
   if (msg_content) {
     new_message(msg_content, current_chat_id);
   }
 }
 
+//  Sending ethers from sender to receiver
 const sendEthers = () => {
-  etherAmt = ($("#etherAmount").val());
+  etherAmt = ($("#etherAmount").val());   //  Setting the value of ether amount fetched from the input box
+
+  //  Validation for not entering correct ethers amount.
   if (!etherAmt){
-    alert("enter ether amount");
+    $("#txn-msg").text("Please enter valid Ether amount..!!").css("color", "red");
     return undefined;
   }
-  senderAddress = check_metamask();
-  receiverAddress = user_info.profiles[current_recipient_id].public_key;
+  senderAddress = check_metamask();   // Check if metamask is there or not and if there, then logged in or not.
+  receiverAddress = user_info.profiles[current_recipient_id].public_key;  //  Fetching the public key of the receiver from DB
+
+  //  Validation if reveiver has public key for cryptocurrency transactions.
   if (!receiverAddress){
-    alert("Receiver has not created his crypto account as there is no public key found for the user..!!");
+    $("#txn-msg").text("Receiver has not created his crypto account as there is no public key found for the user..!!").css("color", "red");
     return undefined;
   }
   console.log("receiver address: " + receiverAddress);
-  transactionId = send_ether(receiverAddress, etherAmt);
-  console.log("Transaction id: " + transactionId);
-  displayTxnConfirmMsg(transactionId);
+  send_ether(receiverAddress, etherAmt);  // Sending ethers from Sender to Receiver's address.
 }
 
+//  Send Ethers button click functionality
 $("#sendEthers").click(() => {
   sendEthers();
 })
-
-document.getElementById('logout').addEventListener('click', function () {
-  event.preventDefault();
-  localStorage.clear();
-  logout();
-  window.location.href = "./login.html";
-});
 
 $("#about").click(() => {
   open_overlay("#about-page");
 });
 
 $("#overlay").click(event => {
-  if (event.target.id === "about-page" || event.target.id === "user-profile") {
+  if (event.target.id === "about-page" || event.target.id === "user-profile" || event.target.id === "send-ethers-page") {
     close_overlay();
   }
 });
