@@ -146,7 +146,7 @@ const user_messages = () => {
           // console.log(key + " " + JSON.stringify(data));
           user_info.chats[key][data.key] = data.val();
 
-          //show image previews on page load
+          //show message previews on page load
           if (data.key === "messages") {
             const latest_message = Object.entries(data.val()).slice(-1)[0][1]
               .message;
@@ -156,6 +156,15 @@ const user_messages = () => {
               .children("div.meta")
               .children("p.preview")
               .html(latest_message);
+
+            if (key === current_chat_id) { //condition for first message in a chat (draw if on current chat) - won't run at the very beginning because current_chat_id = undefined
+              const user_pic = image_check(user_info.profiles[user_info.uid]);
+              const recipient_pic = image_check(
+                user_info.profiles[current_recipient_id]
+              );
+              const message_obj = Object.entries(data.val())[0][1];
+              draw_message(message_obj, user_pic, recipient_pic); //creates message object
+            }
           }
         }
       );
@@ -253,7 +262,7 @@ const draw_chat = data => {
       profile_image +
       '" alt="" /><div class="meta"><p class="name">' +
       recipient_username +
-      '</p><p class="preview">message</p></div></div></li>'
+      '</p><p class="preview"><br></p></div></div></li>'
   );
 };
 
@@ -333,6 +342,11 @@ const user_profiles = () => {
   });
   get_database("/users", "username", "child_changed", data => {
     user_info.profiles[data.key] = data.val();
+    const profile_pic = image_check(data.val())
+    $("#"+data.key+" div img").attr("src", profile_pic) //updates profile picture if there is a change
+    if (data.key === current_recipient_id) { //update profile pic in header if active convo
+      $("#currentChatUser img").attr("src", profile_pic)
+    }
     // console.log("check");
   }); //listener for any changes to user profiles
 };
