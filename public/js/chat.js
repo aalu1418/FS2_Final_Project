@@ -133,9 +133,14 @@ const user_messages = () => {
 
         //show image previews on page load
         if (data.key === "messages") {
-          const latest_message = Object.entries(data.val()).slice(-1)[0][1].message;
+          const latest_message = Object.entries(data.val()).slice(-1)[0][1]
+            .message;
           // https://stackoverflow.com/questions/13392463/jquery-select-all-element-with-custom-attribute
-          $("li[chat_id="+key+"]").children().children("div.meta").children("p.preview").html(latest_message);
+          $("li[chat_id=" + key + "]")
+            .children()
+            .children("div.meta")
+            .children("p.preview")
+            .html(latest_message);
         }
       }
     );
@@ -206,7 +211,8 @@ const user_chats = () => {
       $("#" + data.val().recipient + " div div .preview").html(
         user_info.chats[data.key].messages[data.val().timestamp].message
       );
-      if (data.val().recipient != current_recipient_id) { //only bolds if the new message is in a different chat
+      if (data.val().recipient != current_recipient_id) {
+        //only bolds if the new message is in a different chat
         $("#" + data.val().recipient + " div div p").css("font-weight", "bold"); //bold the updated conversation on the side
       }
     }
@@ -254,8 +260,6 @@ $("#contacts ul").click(event => {
 
   $("#currentChatUser p").text(recipient_username);
   $(".content .messages ul").html(""); //clear messages
-  $("#txn-msg").html(""); //  clear any failed or success transaction message from send-ether-page
-  $("#etherAmount").val("");  //  Reset the input field of entering ethers amount for every user on click
 
   //set current chat
   current_chat_id = $(event.target)
@@ -277,7 +281,7 @@ $("#contacts ul").click(event => {
   }
   //https://stackoverflow.com/questions/10899632/jquery-make-div-always-scroll-to-bottom
   $(".messages").animate({ scrollTop: $(".messages").prop("scrollHeight") }); //scroll to bottom of chat
-  $("#" + recipient_Uid + " div div p").removeAttr('style'); //remove bold when clicked
+  $("#" + recipient_Uid + " div div p").removeAttr("style"); //remove bold when clicked
 });
 
 const draw_message = (msg_obj, user_pic, recipient_pic) => {
@@ -385,59 +389,78 @@ $("#profile").click(() => {
 //  Opens the send-ether-page on click of money icon button
 $(".submitEther").click(() => {
   event.preventDefault();
-  open_overlay("#send-ethers-page");  //  Opens the Ethers transactions page (i.e. send-ether-page)
+  $("#txn-msg").html(""); //  clear any failed or success transaction message from send-ether-page
+  $("#etherAmount").val(""); //  Reset the input field of entering ethers amount
+  open_overlay("#send-ethers-page"); //  Opens the Ethers transactions page (i.e. send-ether-page)
 });
 
-let etherAmt; //  global declaration of ethers to be sent
-const displayTxnConfirmMsg = (transactionId) => {
+// let etherAmt; //  global declaration of ethers to be sent
+const displayTxnConfirmMsg = (transactionId, etherAmt) => {
+  let msg_content;
+  if (!transactionId) {
+    $("#txn-msg")
+      .text("Transaction not successful.")
+      .css("color", "red");
+    msg_content =
+      "Transaction not successful<br> Attempted to send: " +
+      etherAmt +
+      " ether";
+  } else {
+    $("#txn-msg")
+      .text("Transaction successful.")
+      .css("color", "green");
+    msg_content =
+      "Transaction successful<br>Sent: " +
+      etherAmt +
+      " ether<br>Transaction id: " +
+      transactionId.slice(0, transactionId.length / 2) +
+      "<br>" +
+      transactionId.slice(transactionId.length / 2);
+  }
 
-  if (!transactionId ){
-    $("#txn-msg").text("Transaction not successful..!!").css("color", "red");
-    msg_content = "Transaction not successful<br> No. of ethers tried to send: " + ('"'+etherAmt+'"') + "<br>Transaction Id: " + transactionId;
-  }
-  else {
-    $("#txn-msg").text("Transaction successful..!!").css("color", "green");
-    msg_content = "Transaction successful<br>No. of Ethers sent: " + ('"'+etherAmt+'"') + "<br>Transaction id: \
-    " + ('"'+transactionId+'"').slice(0,('"'+transactionId+'"').length/2) + "<br>" + ('"'+transactionId+'"').slice(('"'+transactionId+'"').length/2);
-  }
-  
   if (msg_content) {
     new_message(msg_content, current_chat_id);
   }
-}
+};
 
 //  Sending ethers from sender to receiver
 const sendEthers = () => {
-  etherAmt = ($("#etherAmount").val());   //  Setting the value of ether amount fetched from the input box
+  const etherAmt = $("#etherAmount").val(); //  Setting the value of ether amount fetched from the input box
 
   //  Validation for not entering correct ethers amount.
-  if (!etherAmt){
-    $("#txn-msg").text("Please enter valid Ether amount..!!").css("color", "red");
-    return undefined;
+  if (!etherAmt) {
+    $("#txn-msg")
+      .text("Please enter valid ether amount.")
+      .css("color", "red");
   }
-  senderAddress = check_metamask();   // Check if metamask is there or not and if there, then logged in or not.
-  receiverAddress = user_info.profiles[current_recipient_id].public_key;  //  Fetching the public key of the receiver from DB
+  senderAddress = check_metamask(); // Check if metamask is there or not and if there, then logged in or not.
+  const receiverAddress = user_info.profiles[current_recipient_id].public_key; //  Fetching the public key of the receiver from DB
 
   //  Validation if reveiver has public key for cryptocurrency transactions.
-  if (!receiverAddress){
-    $("#txn-msg").text("Receiver has not created his crypto account as there is no public key found for the user..!!").css("color", "red");
-    return undefined;
+  if (!receiverAddress) {
+    $("#txn-msg")
+      .text("There is no public key found for the recipient.")
+      .css("color", "red");
   }
-  console.log("receiver address: " + receiverAddress);
-  send_ether(receiverAddress, etherAmt);  // Sending ethers from Sender to Receiver's address.
-}
+  // console.log("receiver address: " + receiverAddress);
+  send_ether(receiverAddress, etherAmt); // Sending ethers from Sender to Receiver's address.
+};
 
 //  Send Ethers button click functionality
 $("#sendEthers").click(() => {
   sendEthers();
-})
+});
 
 $("#about").click(() => {
   open_overlay("#about-page");
 });
 
 $("#overlay").click(event => {
-  if (event.target.id === "about-page" || event.target.id === "user-profile" || event.target.id === "send-ethers-page") {
+  if (
+    event.target.id === "about-page" ||
+    event.target.id === "user-profile" ||
+    event.target.id === "send-ethers-page"
+  ) {
     close_overlay();
   }
 });
