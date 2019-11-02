@@ -45,11 +45,11 @@ var redirect = () => {
   // console.log("checking redirect");
   if (user_info) { //if user is logged in
     // console.log("[login success]");
-    if (window.location.pathname != "/chat.html") { //redirect to chat if not on chat
-      window.location.href = "./chat.html";
+    if (window.location.pathname != "/chat") { //redirect to chat if not on chat
+      window.location.href = "./chat";
     }
   } else {
-    if (window.location.pathname == "/chat.html") { //redirect to login if not logged in
+    if (window.location.pathname == "/chat") { //redirect to login if not logged in
       window.location.href = "/";
     }
   }

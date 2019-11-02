@@ -8,7 +8,7 @@ Github Repo: https://github.com/aalu1418/FS2_Final_Project
 ---
 
 ### Project Description & Specifications
-A simple chat application that incorporates the Firebase Realtime Database for messaging & user conversations and Metamask for sending ether in the chat. Additionally, the application uses Firebase storage, authentication, and hosting for purposes from user management to profile image storage.
+A simple chat application that incorporates the Firebase Realtime Database for messaging & user conversations, Metamask for sending ether in the chat, and ExpressJS for the routing. Additionally, the application uses Firebase storage, authentication, and hosting for purposes from user management to profile image storage.
 
 Must contain the following Client-side functionality:
 - Entry page with intuitive navigation
@@ -34,6 +34,7 @@ Must contain the following Server-side functionality:
 - Serving of content based on user requests
   - User request include the different chats, viewing their own profiles, receiving messages
   - Controlled via read permissions for the Firebase database & storage
+  - URL requests are handled via Firebase functions & ExpressJS
 - Handling of user submitted data
   - User submitted data includes sending messages, and uploading profile pictures
   - Controlled via write permissions for the database & storage
@@ -74,6 +75,7 @@ Must contain the following Server-side functionality:
   - [x] About page
 - [x] Chat Functionality - multiple chats, realtime messages
 - [x] Ether transfer inside chat using metamask integration
+- [x] ExpressJS for webpage routing & integration with Firebase Functions
 ---
 
 ### Task List
@@ -114,6 +116,7 @@ Must contain the following Server-side functionality:
   - [x] 404 page handling
   - [x] auto-redirect depending on auth status
   - [x] ico image
+- [x] connected Firebase Functions w/ ExpressJS for router
 
 #### Deepanshu
 - [x] experiment with Bootstrap
