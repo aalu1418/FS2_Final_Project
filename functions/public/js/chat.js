@@ -462,14 +462,6 @@ const sendEthers = () => {
       .css("color", "red");
   }
 
-  const receiverAddress = user_info.profiles[current_recipient_id].public_key; //  Fetching the public key of the receiver from DB
-
-  //  Validation if reveiver has public key for cryptocurrency transactions.
-  if (!receiverAddress) {
-    $("#txn-msg")
-    .text("There is no public key found for the recipient.")
-    .css("color", "red");
-  }
 
   // Check if metamask is there or not and if there, then logged in or not.
   check_metamask().then(address => {
@@ -479,7 +471,16 @@ const sendEthers = () => {
         write_database("/users/" + user_info.uid + "/public_key", address);
       }
       // console.log("receiver address: " + receiverAddress);
-      send_ether(receiverAddress, etherAmt); // Sending ethers from Sender to Receiver's address.
+      const receiverAddress = user_info.profiles[current_recipient_id].public_key; //  Fetching the public key of the receiver from DB
+      //  Validation if reveiver has public key for cryptocurrency transactions.
+      if (!receiverAddress) {
+        $("#txn-msg")
+        .text("There is no public key found for the recipient.")
+        .css("color", "red");
+      } else {
+        send_ether(receiverAddress, etherAmt); // Sending ethers from Sender to Receiver's address.
+      }
+
     } else {
       $("#txn-msg")
         .html(
