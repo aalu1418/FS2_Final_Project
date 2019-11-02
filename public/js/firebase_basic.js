@@ -42,7 +42,7 @@ const check_user = () => {
 
 //redirect to chat page based if user is logged in or not
 var redirect = () => {
-  console.log("checking redirect");
+  // console.log("checking redirect");
   if (user_info) { //if user is logged in
     // console.log("[login success]");
     if (window.location.pathname != "/chat.html") { //redirect to chat if not on chat
