@@ -8,10 +8,14 @@ window.onload = async () => {
 
   // console.log("on load..");
   // console.log(user_info);
-  await check_user().then(redirect); //run command to get access to user_info
-  user_profiles(); //get all user profiles
-  new_user(); //something to check new user & create the corresponding conversations
-  start_messages(); //get messages & chats
+  try {
+    await check_user().then(redirect); //run command to get access to user_info
+    user_profiles(); //get all user profiles
+    new_user(); //something to check new user & create the corresponding conversations
+    start_messages(); //get messages & chats
+  } catch (e) {
+    console.log("[page load error] "+e);
+  }
 };
 
 //start the chats & messages
@@ -102,36 +106,40 @@ $("#sentMsgContent").on("keypress", function(e) {
 
 //send message as a part of a new conversation
 const new_message = (text, chat_id) => {
-  const current_timestamp = Date.now();
-  let payload = {};
-  //new message with the timestamp as the message number
-  payload[
-    "/conversations/" + chat_id.toString() + "/messages/" + current_timestamp
-  ] = {
-    sender: user_info.uid,
-    message: text,
-    timestamp: current_timestamp
-  };
+  try {
+    const current_timestamp = Date.now();
+    let payload = {};
+    //new message with the timestamp as the message number
+    payload[
+      "/conversations/" + chat_id.toString() + "/messages/" + current_timestamp
+    ] = {
+      sender: user_info.uid,
+      message: text,
+      timestamp: current_timestamp
+    };
 
-  //update timestamps on chats for each user
-  get_snapshot("/conversations/" + chat_id).then(snapshot => {
-    //get snapshot used to get recipient_id
-    const key_vals = Object.keys(snapshot.val());
-    const recipient_id = key_vals.filter(
-      elem => elem != user_info.uid && elem != "messages"
-    );
-    write_database(
-      "/chat_ids/" + recipient_id + "/" + chat_id.toString() + "/timestamp",
-      current_timestamp
-    );
-    write_database(
-      "/chat_ids/" + user_info.uid + "/" + chat_id.toString() + "/timestamp",
-      current_timestamp
-    );
-  });
+    //update timestamps on chats for each user
+    get_snapshot("/conversations/" + chat_id).then(snapshot => {
+      //get snapshot used to get recipient_id
+      const key_vals = Object.keys(snapshot.val());
+      const recipient_id = key_vals.filter(
+        elem => elem != user_info.uid && elem != "messages"
+      );
+      write_database(
+        "/chat_ids/" + recipient_id + "/" + chat_id.toString() + "/timestamp",
+        current_timestamp
+      );
+      write_database(
+        "/chat_ids/" + user_info.uid + "/" + chat_id.toString() + "/timestamp",
+        current_timestamp
+      );
+    });
 
-  // console.log(payload);
-  update_database(payload);
+    // console.log(payload);
+    update_database(payload);
+  } catch (e) {
+    console.log("[new_message] "+e);
+  }
 };
 
 //get list of messages

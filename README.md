@@ -3,12 +3,12 @@ Deployed Website: https://gb-fullstackii-project.web.app/
 Github Repo: https://github.com/aalu1418/FS2_Final_Project
 
 ### Developer Information
-- Deepanshu Gupta
+- Deepanshu Gupta - 101253525
 - Aaron Lu - 101278524
 ---
 
 ### Project Description & Specifications
-A simple chat application that incorporates the Firebase Realtime Database for messaging & user conversations, Metamask for sending ether in the chat, and ExpressJS for the routing. Additionally, the application uses Firebase storage, authentication, and hosting for purposes from user management to profile image storage.
+A simple chat application that incorporates the Firebase Realtime Database for messaging & user conversations, Metamask for sending ether in the chat, and Express + Firebase Functions for the routing. Additionally, the application uses Firebase storage, authentication, and hosting for purposes from user management to profile image storage.
 
 Must contain the following Client-side functionality:
 - Entry page with intuitive navigation
@@ -34,12 +34,21 @@ Must contain the following Server-side functionality:
 - Serving of content based on user requests
   - User request include the different chats, viewing their own profiles, receiving messages
   - Controlled via read permissions for the Firebase database & storage
-  - URL requests are handled via Firebase functions & ExpressJS
+  - URL requests are handled via Firebase functions & Express
 - Handling of user submitted data
   - User submitted data includes sending messages, and uploading profile pictures
   - Controlled via write permissions for the database & storage
 - Error handling
   - Various forms of error handling are included for the various listeners, function calls, etc
+
+Interesting things:
+  - Connecting Firebase Functions & Firebase Hosting
+    - Firebase functions & Firebase hosting are two separate services that do not communicate when deployed ([link](https://stackoverflow.com/questions/56127080/how-can-i-serve-static-web-site-from-firebase-hosting-through-node-expressjs))
+    - Solution is to place the hosting folder inside the functions folder and then the functions have access to the webpages
+    - Additional solution, change the firebase.json rules to have hosting in the ```/functions/public/``` folder to speed up the loading and prevent file load errors.
+  - Error handling for authentication listener ```check_user()```
+    - Uses two functions in a race (timeout function vs get_user function)
+    - When user is not authenticated get_user hangs - therefore timeout completes first and moves to the next step
 ---
 
 ### Testing Information
@@ -64,6 +73,16 @@ Must contain the following Server-side functionality:
     2. If the user goes back to the login or register page, an automatic redirect will occur.
   - Nonauthenticated:
     1. If user visits chat page, an automatic redirect to the login page will occur.
+- Password Reset & Forgot Password:
+  1. Can be accessed from the login page or from the user profile
+  2. Email is used to send a reset email via firebase
+---
+
+### Tools List
+- [Bootstrap](https://getbootstrap.com/) for HTML/CSS/JS framework
+- [Firebase](https://firebase.google.com/) for database & webhosting & functions
+- [JQuery](https://jquery.com/) for DOM content (not really used yet)
+- [Express](https://expressjs.com/) for routing URLs
 ---
 
 ### Ideas List: Ether transfer via chat app
@@ -117,6 +136,7 @@ Must contain the following Server-side functionality:
   - [x] auto-redirect depending on auth status
   - [x] ico image
 - [x] connected Firebase Functions w/ ExpressJS for router
+  - [x] deploy
 
 #### Deepanshu
 - [x] experiment with Bootstrap
@@ -148,17 +168,12 @@ Must contain the following Server-side functionality:
 
 ---
 
-### Tools List
-- [Bootstrap](https://getbootstrap.com/) for HTML/CSS/JS framework
-- [Firebase](https://firebase.google.com/) for database & webhosting
-- [JQuery](https://jquery.com/) for DOM content (not really used yet)
----
-
 ### Notes Section
-- [Aaron] make sure to add error handling for .then functions
+- [Aaron] make sure to add error handling for .then functions - complete
 - [Aaron] 404 handling - complete
 - [Deepanshu] Make sure to arrange the chat page layout acc to browser screen.
-- [Deepanshu] Make sure to remove the uncommented which is kept, as of now, for reference.
+- [Deepanshu] Make sure to remove the uncommented which is kept, as of now, for reference. - complete
+- [Aaron] need Deepanshu's email & gb id - complete
+- [Aaron] final step is to add error handling & catching - complete
 - [Aaron] setup validation in database - more advanced, future addition?
-- [Aaron] need Deepanshu's email & gb id
-- [Aaron] final step is to add error handling & catching
+- [Aaron] future note - transfer more functions from front end (Firebase Hosting) to back end (Firebase Functions)
