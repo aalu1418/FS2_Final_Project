@@ -72,8 +72,8 @@ Must contain the following Server-side functionality:
   - [x] Chat page (includes list of all chats, all possible conversations, conversation profile)
   - [x] Personal profile page
   - [x] About page
-- [x] Chat Functionality
-- [ ] Ether transfer
+- [x] Chat Functionality - multiple chats, realtime messages
+- [x] Ether transfer inside chat using metamask integration
 ---
 
 ### Task List
@@ -103,9 +103,11 @@ Must contain the following Server-side functionality:
   - [x] function for getting messages
   - [x] get user list (people who you can send messages to, and get images)
   - [x] set user profile picture & profile page
+- [x] chat functionality
+  - [x] on left panel, open chat for particular user on clicking particular user's conversation box
+  - [x] function for getting chat users for current logged in user
 - [x] metamask integration
   - [x] get and save users public key
-  - [x] use metamask to send ether to a public address
 - [x] fix redirecting
   - [x] login page as default
   - [x] password reset
@@ -135,11 +137,11 @@ Must contain the following Server-side functionality:
   - [x] get username/userid
   - [x] create msg objects array
   - [x] link username/userid with an array of msg objects
-  - [ ] Validation for if no/wrong msg is entered
-  - [ ] Dsiplay users on left sidepanel after getting the users list from db
-  - [ ] create navbar, if time persists
-  - [ ] On leftpanel, open chat for particular user on clicking particular user's conversation box
-  - [ ] function for getting chat users for current logged in user
+  - [x] Validation for if no/wrong msg is entered
+  - [x] Display users on left sidepanel after getting the users list from db
+- [x] metamask integration
+  - [x] get and save users public key
+  - [x] use metamask to send ether to a public address
 
 ---
 
@@ -151,7 +153,9 @@ Must contain the following Server-side functionality:
 
 ### Notes Section
 - [Aaron] make sure to add error handling for .then functions
-- [Aaron] 404 handling?
+- [Aaron] 404 handling - complete
 - [Deepanshu] Make sure to arrange the chat page layout acc to browser screen.
 - [Deepanshu] Make sure to remove the uncommented which is kept, as of now, for reference.
-- [Aaron] setup validation in database?
+- [Aaron] setup validation in database - more advanced, future addition?
+- [Aaron] need Deepanshu's email & gb id
+- [Aaron] final step is to add error handling & catching

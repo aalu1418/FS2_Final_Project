@@ -136,54 +136,58 @@ const new_message = (text, chat_id) => {
 
 //get list of messages
 const user_messages = () => {
-  Object.keys(user_info.chats).forEach(key => {
-    get_database(
-      "/conversations/" + key.toString(),
-      "timestamp",
-      "child_added",
-      data => {
-        // console.log(key + " " + JSON.stringify(data));
-        user_info.chats[key][data.key] = data.val();
+  try {
+    Object.keys(user_info.chats).forEach(key => {
+      get_database(
+        "/conversations/" + key.toString(),
+        "timestamp",
+        "child_added",
+        data => {
+          // console.log(key + " " + JSON.stringify(data));
+          user_info.chats[key][data.key] = data.val();
 
-        //show image previews on page load
-        if (data.key === "messages") {
-          const latest_message = Object.entries(data.val()).slice(-1)[0][1]
-            .message;
-          // https://stackoverflow.com/questions/13392463/jquery-select-all-element-with-custom-attribute
-          $("li[chat_id=" + key + "]")
-            .children()
-            .children("div.meta")
-            .children("p.preview")
-            .html(latest_message);
+          //show image previews on page load
+          if (data.key === "messages") {
+            const latest_message = Object.entries(data.val()).slice(-1)[0][1]
+              .message;
+            // https://stackoverflow.com/questions/13392463/jquery-select-all-element-with-custom-attribute
+            $("li[chat_id=" + key + "]")
+              .children()
+              .children("div.meta")
+              .children("p.preview")
+              .html(latest_message);
+          }
         }
-      }
-    );
-    get_database(
-      "/conversations/" + key.toString(),
-      "timestamp",
-      "child_changed",
-      data => {
-        let chat_identifier;
-        user_info.chats[key][data.key] = data.val();
-        //insert function to generate UI if active chat
-        const message_obj = Object.entries(data.val()).slice(-1)[0][1]; //convert to array, slice to get the last element at index 0, and the message obj at index 1
-        if (key == current_chat_id) {
-          //if new message in active chat
+      );
+      get_database(
+        "/conversations/" + key.toString(),
+        "timestamp",
+        "child_changed",
+        data => {
+          let chat_identifier;
+          user_info.chats[key][data.key] = data.val();
+          //insert function to generate UI if active chat
+          const message_obj = Object.entries(data.val()).slice(-1)[0][1]; //convert to array, slice to get the last element at index 0, and the message obj at index 1
+          if (key == current_chat_id) {
+            //if new message in active chat
 
-          const user_pic = image_check(user_info.profiles[user_info.uid]);
-          const recipient_pic = image_check(
-            user_info.profiles[current_recipient_id]
-          );
+            const user_pic = image_check(user_info.profiles[user_info.uid]);
+            const recipient_pic = image_check(
+              user_info.profiles[current_recipient_id]
+            );
 
-          draw_message(message_obj, user_pic, recipient_pic); //creates message object
-          $(".messages").animate({
-            //forces scroll to stay at bottom
-            scrollTop: $(".messages").prop("scrollHeight")
-          });
+            draw_message(message_obj, user_pic, recipient_pic); //creates message object
+            $(".messages").animate({
+              //forces scroll to stay at bottom
+              scrollTop: $(".messages").prop("scrollHeight")
+            });
+          }
         }
-      }
-    );
-  });
+      );
+    });
+  } catch (e) {
+    console.log("[user_messages] "+e);
+  }
 };
 
 //get users list of chats
@@ -266,13 +270,13 @@ $("#contacts ul").click(event => {
     .siblings("li")
     .removeClass("active"); //clear active for other li elements
   // console.log(recipient_Uid);
-  recipient_username = user_info.profiles[recipient_Uid].username;
+  const recipient_username = user_info.profiles[recipient_Uid].username;
   // console.log(recipient_username);
 
   //Display corresponding username & picture
   //get profile picture depending on stored value
   let profile_image = image_check(user_info.profiles[recipient_Uid]);
-  $("#profile-img").attr("src", profile_image);
+  $("#currentChatUser img").attr("src", profile_image);
 
   $("#currentChatUser p").text(recipient_username);
   $(".content .messages ul").html(""); //clear messages
@@ -517,6 +521,7 @@ $("#profile_pic_load").change(obj => {
           "/users/" + user_info.uid + "/profile_picture",
           downloadURL
         );
+        $("#profile div #profile-img").attr("src", downloadURL) //change small profile picture
         // user_info.profiles[user_info.uid].profile_piscture = downloadURL;
         get_profile_page();
       });
