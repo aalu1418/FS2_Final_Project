@@ -3,12 +3,16 @@
     "rules": "database.rules.json"
   },
   "hosting": {
-    "public": "public",
+    "public": "functions/public",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ]
+    ],
+    "rewrites": [ {
+     "source": "**",
+     "function": "app"
+   } ]
   },
   "storage": {
     "rules": "storage.rules"

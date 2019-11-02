@@ -31,6 +31,7 @@ const get_database = (location, sort_param, type, callback) => {
     );
 };
 
+//get value (no listener)
 const get_snapshot = location => {
   return firebase
     .database()
